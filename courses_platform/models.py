@@ -53,7 +53,7 @@ class Course(models.Model):
     ]
 
     instructor = models.ForeignKey(
-        "User", on_delete=models.CASCADE)
+        "User", on_delete=models.CASCADE, related_name="courses_taught")
     title = models.CharField(max_length=80, validators=[
                              MinLengthValidator(10), MaxLengthValidator(80)])
     category = models.PositiveSmallIntegerField(choices=CATEGORY_CHOICES)
