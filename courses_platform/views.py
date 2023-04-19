@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django import forms
-from django.core import validators
 from PIL import Image
 from .models import User, Course
 

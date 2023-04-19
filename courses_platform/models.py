@@ -4,6 +4,8 @@ from django.core.validators import MaxValueValidator, MinValueValidator, MinLeng
 
 
 class User(AbstractUser):
+    REQUIRED_FIELDS = ["role", "about"]
+
     STUDENT = 1
     INSTRUCTOR = 2
 
@@ -18,7 +20,7 @@ class User(AbstractUser):
     about = models.TextField(max_length=950, validators=[
                              MinLengthValidator(40), MaxLengthValidator(950)])
     enrolled_courses = models.ManyToManyField(
-        "Course", related_name="enrolled_students")
+        "Course", blank=True, related_name="enrolled_students")
 
 
 class Course(models.Model):
@@ -80,5 +82,6 @@ class Course(models.Model):
     certificate = models.BooleanField()
     passing_grade = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(50), MaxValueValidator(100)])
-    passers = models.ManyToManyField("User", related_name="courses_passed")
+    passers = models.ManyToManyField(
+        "User", blank=True, related_name="courses_passed")
     creation_date = models.DateField(auto_now_add=True)
