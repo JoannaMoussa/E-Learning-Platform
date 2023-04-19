@@ -52,6 +52,16 @@ class Course(models.Model):
         (SPANISH, "Spanish")
     ]
 
+    BEGINNER = 1
+    INTERMEDIATE = 2
+    ADVANCED = 3
+
+    LEVEL_CHOICES = [
+        (BEGINNER, "Beginner"),
+        (INTERMEDIATE, "Intermediate"),
+        (ADVANCED, "Advanced")
+    ]
+
     instructor = models.ForeignKey(
         "User", on_delete=models.CASCADE, related_name="courses_taught")
     title = models.CharField(max_length=80, validators=[
@@ -64,6 +74,7 @@ class Course(models.Model):
     long_description = models.TextField(
         max_length=2000, validators=[MinLengthValidator(200), MaxLengthValidator(2000)])
     language = models.PositiveSmallIntegerField(choices=LANGUAGE_CHOICES)
+    level = models.PositiveSmallIntegerField(choices=LEVEL_CHOICES)
     prerequisite = models.ForeignKey(
         "self", on_delete=models.SET_NULL, null=True, blank=True)
     certificate = models.BooleanField()
