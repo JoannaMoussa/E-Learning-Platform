@@ -105,3 +105,7 @@ class CreateCourseForm(forms.Form):
                                        min_value=50,
                                        max_value=100,
                                        widget=forms.NumberInput())
+
+
+def signup(request):
+    return render(request, "courses_platform/signup.html")
