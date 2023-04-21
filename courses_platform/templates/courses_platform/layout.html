@@ -12,8 +12,10 @@
     <link href="{% static 'courses_platform/modern-normalize.css' %}" rel="stylesheet">
     <link href="{% static 'courses_platform/styles.css' %}" rel="stylesheet">
     <link href="{% static 'courses_platform/components/header.css' %}" rel="stylesheet">
+    <link href="{% static 'courses_platform/components/mobile-nav.css' %}" rel="stylesheet">
 
     <link href="{% static 'courses_platform/utils.css' %}" rel="stylesheet">
+    <script src="{% static 'courses_platform/components/mobile-nav.js' %}"></script>
     {% block script %}
     {% endblock %}
 </head>
@@ -28,9 +30,6 @@
             </div>
             <ul class="header__menu">
                 <li>
-                    <a class="header__link" href="#top-courses">Top Courses</a>
-                </li>
-                <li>
                     <a class="header__link" href="#all-courses">All Courses</a>
                 </li>
                 <li>
@@ -41,18 +40,60 @@
                         <i class="bi bi-moon-stars-fill"></i>
                     </button>
                 </li>
-                <li class="header__profile">
-                    <a>
-                        <i class="bi bi-person-circle"></i>
-                        <span class="header__link">Profile</span>
-                    </a>
-                </li>
+                {% if user.is_authenticated %}
+                    <li class="header__profile">
+                        <a>
+                            <i class="bi bi-person-circle"></i>
+                            <span class="header__link">Profile</span>
+                        </a>
+                    </li>
+                {% endif %}
             </ul>
-            <button class="header__bars">
+            <button id="header-bars" class="header__bars">
                 <i class="bi bi-list"></i>
             </button>
         </nav>
     </header>
+    <!-- Mobile Navigation -->
+    <div id="mobile-navigation" class="mobile-nav">
+        <nav>
+            <button id="mobile-nav-close-btn" class="mobile-nav__close-btn">
+                <i class="bi bi-x-lg"></i>
+            </button>
+            <h2 class="mobile-nav__title">
+                Menu
+            </h2>
+            <ul class="mobile-nav__menu">
+                {% if user.is_authenticated %}
+                <li>
+                    <a>
+                        <i class="bi bi-person-circle"></i>
+                        <span class="mobile-nav__link">Profile</span>
+                    </a>
+                </li>
+                {% else %}
+                <li>
+                    <a class="mobile-nav__link">Sign In | </a>
+                    <a class="mobile-nav__link">Sign Up</a>
+                </li>
+                {% endif %}
+                <li>
+                    <a class="mobile-nav__link" href="#all-courses">All Courses</a>
+                </li>
+                <li>
+                    <a class="mobile-nav__link" href="#about-us">About Us</a>
+                </li>
+                <li class="mobile-nav__line"></li>
+                <li>
+                    <button class="mobile-nav__moon" id="theme-toggle">
+                        <span class="mobile-nav__link">Dark Mode</span>
+                        <i class="bi bi-moon-stars-fill"></i>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <!-- End of Mobile Navigation -->
     {% block body %}
     {% endblock %}
 </body>
