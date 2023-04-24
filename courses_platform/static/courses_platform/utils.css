@@ -16,7 +16,7 @@
 /* 2xl */
 /* @media (min-width: 1536px) {} */
 
-.btn {
+.custom-button {
     display: inline-block;
     font-weight: 600;
     text-decoration: none;

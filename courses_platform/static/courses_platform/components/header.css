@@ -35,13 +35,13 @@
         padding: 1em;
     }
 
-    .header__logo {
+    .header__logo {        
         font-size: var(--size-2xl);
     }
 
     .header__menu {
         display: flex;
-        align-items: start;
+        align-items: center;
         list-style: none;
         gap: 2em;
         font-size: var(--size-2xl);
@@ -49,6 +49,13 @@
 
     .header__link {
         text-decoration: none;
+    }
+
+    .header__logout {
+        border-left: solid 2px;
+        padding-left: 1em;
+        margin-left: -1em;
+        font-size: var(--size-xl);
     }
 
     .header__bars{
@@ -64,6 +71,9 @@
     .header__menu {
         font-size: var(--size-3xl);
     }
+    .header__logout {
+        font-size: var(--size-2xl);
+    }
 } 
 
 /* 2xl */
@@ -74,5 +84,8 @@
 
     .header__menu {
         font-size: var(--size-4xl);
+    }
+    .header__logout {
+        font-size: var(--size-3xl);
     }
 } 

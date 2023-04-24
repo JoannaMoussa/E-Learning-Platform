@@ -1,4 +1,41 @@
 {% extends "courses_platform/layout.html" %}
 
+{% load static %}
+
+{% block link %}
+    <link href="{% static 'courses_platform/pages/signup.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'courses_platform/pages/signup.js' %}"></script>
+{% endblock %}
+
 {% block body %}
-{%endblock%}
+    <div class="signup-form my-container">
+        <h1 class="signup-form__title">Your Education Journey Starts Here!</h1>
+        <form action="{% url 'signup' %}" method="post" class="signup-form__body">
+            {% csrf_token %}
+            <div class="signup-form__grid">
+                <label for="id_first_name" class="signup-form__label">First Name</label>
+                {{ SignUpForm.first_name }}
+                <label for="id_last_name" class="signup-form__label">Last Name</label>
+                {{ SignUpForm.last_name }}
+                <label for="id_username" class="signup-form__label">Username</label>
+                {{ SignUpForm.username }}
+                <label for="id_email" class="signup-form__label">Email</label>
+                {{ SignUpForm.email }}
+                <label for="id_password" class="signup-form__label">Password</label>
+                {{ SignUpForm.password }}
+                <label for="id_confirm_password" class="signup-form__label signup-form__conf-pass-label">Confirm Password</label> 
+                {{ SignUpForm.confirm_password }}
+                <label for="id_role" class="signup-form__label">Role</label>
+                {{ SignUpForm.role }}
+                <label id="signup-form__title-label" for="id_title" class="signup-form__label hidden_element">Title</label>
+                {{ SignUpForm.title }}
+                <label for="id_about_me" class="signup-form__label">About Me</label>
+                {{ SignUpForm.about_me }}
+            </div>
+            <input class="signup-form__btn custom-button" type="submit" value="Register">
+        </form>
+    </div>
+{% endblock %}

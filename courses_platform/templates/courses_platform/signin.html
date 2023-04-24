@@ -1,0 +1,23 @@
+{% extends "courses_platform/layout.html" %}
+
+{% load static %}
+
+{% block link %}
+    <link href="{% static 'courses_platform/pages/signin.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<div class="signin-form my-container">
+    <h1 class="signin-form__title">Sign In and Catch Up With Your Courses!</h1>
+    <form action="{% url 'signin' %}" method="post" class="signin-form__body">
+        {% csrf_token %}
+        <div class="signin-form__grid">
+            <label for="id_username" class="signin-form__label">Username</label>
+            {{ signInForm.username }}
+            <label for="id_password" class="signin-form__label">Password</label>
+            {{ signInForm.password }}
+        </div>
+        <input class="signin-form__btn custom-button" type="submit" value="Sign In">
+    </form>
+</div>
+{% endblock %}
