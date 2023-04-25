@@ -1,0 +1,88 @@
+.messages-container {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 0.5em;
+    position: fixed;
+    bottom: 5px;
+    left: 5px;
+    z-index: 1;
+    margin-right: 5px;
+}
+
+.message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+    padding: 0.3em 0.6em;
+    width: fit-content;
+    animation-name: fade_in_fade_out;
+    animation-duration: 5s;
+}
+
+@keyframes fade_in_fade_out {
+    0% {
+        opacity: 0;
+    }
+    20% {
+        opacity: 0.85;
+    }
+    80% {
+        opacity: 0.85;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.message-success {
+    background-color: #a1cd71;
+}
+
+.message-warning {
+    background-color: #e5db84;
+}
+
+.message-error {
+    background-color: #ec888d;
+}
+
+.message__text {
+    font-size: var(--size-xl);
+    margin: 0;
+    color: #ffff;
+}
+
+.message__close-btn {
+    font-size: var(--size-4xl);
+    margin-left: 0.5em;
+    color: #ffff;
+}
+
+/*.message__close-btn:hover,
+.message__close-btn:focus {
+  
+}*/
+
+/* xs */
+/* @media (min-width: 475px) {} */
+
+/* sm */
+/* @media (min-width: 640px) {} */
+
+/* md */
+@media (min-width: 768px) {
+    .message {
+        padding: 0.6em 1.2em;
+    }
+}
+
+/* lg */
+/* @media (min-width: 1024px) {} */
+
+/* xl */
+/*@media (min-width: 1280px) {}*/
+   
+/* 2xl */
+/* @media (min-width: 1536px) {} */

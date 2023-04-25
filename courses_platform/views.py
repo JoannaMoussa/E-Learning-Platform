@@ -31,7 +31,7 @@ class SignUpForm(forms.Form):
                              choices=User.ROLE_CHOICES)
     title = forms.CharField(max_length=120,
                             required=False,
-                            widget=forms.TextInput(attrs={'class': 'signup-form__input hidden_element'}))
+                            widget=forms.TextInput(attrs={'class': 'signup-form__input hidden-element'}))
     about_me = forms.CharField(max_length=950,
                                required=True,
                                widget=forms.Textarea(attrs={'class': 'signup-form__input signup-form__input_textarea'}))
@@ -120,7 +120,9 @@ def signup(request):
             confirm_password = request.POST["confirm_password"]
             if password != confirm_password:
                 messages.error(
-                    request, "Password and Confirm password do not match.")
+                    request, "Password and Confirm Password do not match")
+                filled_form.fields['password'].widget.attrs['class'] += ' signup-form__input-red-border'
+                filled_form.fields['confirm_password'].widget.attrs['class'] += ' signup-form__input-red-border'
                 return render(request, "courses_platform/signup.html", {
                     "SignUpForm": filled_form
                 })
@@ -135,7 +137,8 @@ def signup(request):
                 if role == User.INSTRUCTOR:
                     if not request.POST["title"]:
                         messages.error(
-                            request, "You should specify your title as an instructor.")
+                            request, "You should specify your title as an instructor")
+                        filled_form.fields['title'].widget.attrs['class'] = 'signup-form__input signup-form__input-red-border'
                         return render(request, "courses_platform/signup.html", {
                             "SignUpForm": filled_form
                         })
@@ -146,7 +149,8 @@ def signup(request):
                                                 role=role, about=about, instructor_title=instructor_title)
             except IntegrityError:
                 messages.error(
-                    request, "Username already taken.")
+                    request, "Username already taken")
+                filled_form.fields['username'].widget.attrs['class'] += ' signup-form__input-red-border'
                 return render(request, "courses_platform/signup.html", {
                     "SignUpForm": filled_form
                 })
@@ -154,7 +158,7 @@ def signup(request):
             return HttpResponseRedirect(reverse("index"))
 
         else:  # form is invalid
-            messages.error(request, "Invalid form.")
+            messages.error(request, "Invalid form")
             return render(request, "courses_platform/signup.html", {
                 "SignUpForm": filled_form
             })
@@ -184,7 +188,7 @@ def signin(request):
             login(request, user)
             return HttpResponseRedirect(reverse("index"))
         else:
-            messages.error(request, "Invalid username and/or password.")
+            messages.error(request, "Invalid username and/or password")
             return render(request, "courses_platform/signin.html", {
                 "signInForm": SignInForm()
             })

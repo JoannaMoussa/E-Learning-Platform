@@ -41,12 +41,16 @@
     color: var(--clr-dark);
 }
 
+.signup-form__input-red-border {
+    border: 3px solid #db555b;
+}
+
 .signup-form__input_textarea {
     height: 4em;
     resize: none;
 }
 
-.hidden_element {
+.hidden-element {
     display: none;
 }
 

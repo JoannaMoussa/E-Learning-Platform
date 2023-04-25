@@ -13,14 +13,11 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 from django.contrib.messages import constants as messages
 
-# Assigning each Django message tag a corresponding Bootstrap alert class attribute.
-# This will apply the Bootstrap alerts CSS to the Django messages.
+# Assigning each Django message tag a corresponding class.
 MESSAGE_TAGS = {
-    messages.DEBUG: 'alert-secondary',
-    messages.INFO: 'alert-info',
-    messages.SUCCESS: 'alert-success',
-    messages.WARNING: 'alert-warning',
-    messages.ERROR: 'alert-danger',
+    messages.SUCCESS: 'message-success',
+    messages.WARNING: 'message-warning',
+    messages.ERROR: 'message-error',
 }
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.

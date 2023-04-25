@@ -3,8 +3,8 @@ from .models import User, Course
 
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ("username", "email", "role",
-                    "instructor_title", "get_enrolled_courses", "about")
+    list_display = ("username", "first_name", "last_name", "email", "role",
+                    "instructor_title", "get_enrolled_courses")
 
     def get_enrolled_courses(self, obj):
         return "\n".join([enrolled_course.title for enrolled_course in obj.enrolled_courses.all()])
