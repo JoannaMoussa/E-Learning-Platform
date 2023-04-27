@@ -1,0 +1,121 @@
+{% extends "courses_platform/layout.html" %}
+
+{% load static %}
+
+{% block link %}
+    <link href="{% static 'courses_platform/pages/create_course.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'courses_platform/pages/create_course.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="createcourse-form my-container">
+        <h1 class="createcourse-form__title">Create a course</h1>
+        <form action="" method="post" class="createcourse-form__body">
+            {% csrf_token %}
+            <label for="id_title" class="createcourse-form__label">Title</label>
+            <p class="createcourse-form__info-text">Should not exceed 80 characters</p>
+            {{ createCourseForm.title }}
+
+            <div class="createcourse-form__field-grp">
+                <div class="createcourse-form__field-sub-grp">
+                    <label for="id_image" class="createcourse-form__label">Image</label>
+                    <p class="createcourse-form__info-text">Preferably an aspect ratio of 2/3</p>
+                    {{ createCourseForm.image }}
+                </div>
+                <div class="createcourse-form__field-sub-grp">
+                    <label for="id_category" class="createcourse-form__label">Category</label>
+                    <p class="createcourse-form__info-text">Specify the course's category</p>
+                    {{ createCourseForm.category }}
+                </div>
+            </div>
+
+            <label for="id_short_description" class="createcourse-form__label">Short Description</label>
+            <p class="createcourse-form__info-text">Should not exceed 200 characters</p>
+            {{ createCourseForm.short_description }}
+
+            <label for="id_long_description" class="createcourse-form__label">About this course</label>
+            <p class="createcourse-form__info-text">This is a detailed explanation of the course's content. 
+                You can write in markdown language. Should not exceed 2000 characters</p>
+            {{ createCourseForm.long_description }}
+
+            <div class="createcourse-form__field-grp">
+                <div class="createcourse-form__field-sub-grp">
+                    <label for="id_duration" class="createcourse-form__label">Duration</label>
+                    <p class="createcourse-form__info-text">Assuming the student will study 6-8 hrs per week, how many weeks does the course take?</p>
+                    <div>
+                        {{ createCourseForm.duration }} <span class="createcourse-form__input-aside-txt">weeks</span>
+                    </div>
+                </div>
+                <div class="createcourse-form__field-sub-grp">
+                    <label for="id_language" class="createcourse-form__label">Language</label>
+                    <p class="createcourse-form__info-text">In what language will the course be taught?</p>
+                    {{ createCourseForm.language }}
+                </div>
+            </div>
+
+            <div class="createcourse-form__field-grp">
+                <div class="createcourse-form__field-sub-grp">
+                    <label for="id_level" class="createcourse-form__label">Level</label>
+                    <p class="createcourse-form__info-text">Select the difficulty level of the course</p>
+                    {{ createCourseForm.level }}
+                </div>
+                <div class="createcourse-form__field-sub-grp">
+                    <label for="id_prerequisite" class="createcourse-form__label">Prerequisite</label>
+                    <p class="createcourse-form__info-text">Is one of your courses a prerequisite for that course?</p>
+                    <select name="prerequisite" id="id_prerequisite" class="createcourse-form__input">
+                        <option value="" selected>Select course</option>
+                        <!--Insert a for loop on the courses of the instructor-->
+                        <option value="course_id">Course title</option>
+                    </select>
+                </div>
+            </div>
+
+            <label for="id_certificate" class="createcourse-form__label">Certificate</label>
+            <p class="createcourse-form__info-text">Check the box if there is a certicate provided upon completion of the course</p>
+            <div class="createcourse-form__checkbox-grp">
+                {{ createCourseForm.certificate }} <span class="createcourse-form__input-aside-txt">Yes, a certificate will be provided</span>
+            </div>
+
+            <hr class="createcourse-form__hr">
+            <h2 class="createcourse-form__h2-title">Create a Quiz</h2>
+
+            <label for="id_passing_grade" class="createcourse-form__label">Passing Grade</label>
+            <p class="createcourse-form__info-text">Please specify the passing grade in percentage (min 50, max 100)</p>
+            <div>
+                {{ createCourseForm.passing_grade }} <span class="createcourse-form__input-aside-txt">%</span>
+            </div>
+            
+
+            <h3 class="createcourse-form__quiz-heading">Questions</h3>
+
+            <div id="quiz-container"></div>
+            <template>
+                <div class="createcourse-form__quiz-quest-cont">
+                    <label for="id_question_body" class="createcourse-form__label">Question Body</label>
+                    <textarea name="question_body" id="id_question_body" class="createcourse-form__input createcourse-form__input-text-area" maxlength="1000" required></textarea>
+
+                    <label for="id_options" class="createcourse-form__label">Options</label>
+                    <p class="createcourse-form__info-text">The options must be seperated by a comma. e.g.: option 1, option 2, option 3</p>
+                    <textarea name="options" id="id_options" class="createcourse-form__input createcourse-form__input-text-area" maxlength="1000" required></textarea>
+
+                    <label for="id_correct_option" class="createcourse-form__label">Correct Option</label>
+                    <p class="createcourse-form__info-text">Specify the correct option. The option specified should match one of the previously specified options</p>
+                    <textarea name="correct_option" id="id_correct_option" class="createcourse-form__input createcourse-form__input-text-area" maxlength="1000" required></textarea>
+                </div>
+            </template>
+
+            <div class="createcourse-form__btn-cont">
+                <button type="button" id="add-question-btn" class="createcourse-form__add-quest-btn custom-button">
+                    <i class="bi bi-plus-lg"></i>
+                    Add a question
+                </button>
+    
+                <input class="createcourse-form__publish-btn custom-button" type="submit" value="Publish Course">
+            </div>
+            
+        </form>
+    </div>
+{% endblock %}

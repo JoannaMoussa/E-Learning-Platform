@@ -1,0 +1,201 @@
+.createcourse-form {
+    margin-block-end: 2em;
+}
+
+.createcourse-form__title {
+    font-size: var(--size-3xl);
+    font-weight: 600;
+    text-align: center;
+    margin-block-start: 1em;
+}
+
+.createcourse-form__body {
+    display: flex;
+    flex-direction: column;
+    max-width: 768px;
+}
+
+.createcourse-form__label {
+    font-size: var(--size-xl);
+    white-space: nowrap;
+    margin: 0;
+    font-weight: 600;
+}
+
+.createcourse-form__info-text {
+    font-size: var(--size-base);
+    font-style: italic;
+    margin: 0;
+    margin-bottom: 0.5em;
+}
+
+.createcourse-form__input {
+    font-size: var(--size-xl);
+    height: fit-content;
+    color: var(--clr-dark);
+    margin-block-end: 1.5em;
+    max-width: 768px;
+}
+
+.createcourse-form__input-imgfield {
+    max-width: 100%;
+}
+
+.createcourse-form__input-checkbox {
+    width: 1.5em;
+    height: 1.5em;
+}
+
+.createcourse-form__input-text-area {
+    height: 6em;
+    resize: none;
+}
+
+.createcourse-form__input-sm {
+    width: 5ch;
+}
+
+.createcourse-form__input-aside-txt {
+    font-size: var(--size-xl);
+}
+
+.createcourse-form__checkbox-grp {
+    display: flex;
+    align-items: start;
+    gap: 0.5em;
+}
+.createcourse-form__hr {
+    margin-block-start: 3em;
+    color: var(--clr-dark)
+}
+
+.createcourse-form__h2-title {
+    text-align: center;
+    font-size: var(--size-2xl);
+    font-weight: 600;
+    margin-block-start: 0.5em;
+    margin-block-end: 0.5em;
+}
+
+.createcourse-form__quiz-heading {
+    font-size: var(--size-xl);
+    font-weight: 600;
+}
+
+.createcourse-form__quiz-quest-cont {
+    display: flex;
+    flex-direction: column;
+    border: 4px solid var(--clr-dark);
+    border-radius: 6px;
+    padding: 1em;
+    max-width: 768px;
+    margin-block-end: 1em;
+}
+
+.createcourse-form__btn-cont {
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5em;
+}
+
+.createcourse-form__add-quest-btn {
+    font-size: var(--size-base);
+}
+
+.createcourse-form__publish-btn {
+    font-size: var(--size-xl);
+}
+
+
+/* xs */
+/* @media (min-width: 475px) {} */
+
+/* sm */
+@media (min-width: 640px) {
+    .createcourse-form__title {
+        font-size: var(--size-4xl);
+    }
+    .createcourse-form__h2-title {
+        font-size: var(--size-3xl);
+    }
+}
+
+/* md */
+@media (min-width: 768px) {
+    .createcourse-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .createcourse-form__field-grp {
+        display: flex;
+        gap: 5em;
+    }
+    .createcourse-form__field-sub-grp {
+        flex: 1;
+    }
+}
+
+/* lg */
+@media (min-width: 1024px) {
+    .createcourse-form__title {
+        margin-block-end: 1.25em;
+    }
+    .createcourse-form__label {
+        font-size: var(--size-2xl);
+    }
+    .createcourse-form__info-text {
+        font-size: var(--size-lg);
+    }
+    .createcourse-form__input {
+        font-size: var(--size-2xl);
+    }
+    .createcourse-form__input-aside-txt {
+        font-size: var(--size-2xl);
+    }
+    .createcourse-form__quiz-heading {
+        font-size: var(--size-2xl);
+    }
+    .createcourse-form__add-quest-btn {
+        font-size: var(--size-lg);
+    }
+    .createcourse-form__publish-btn {
+        font-size: var(--size-2xl);
+    }
+}
+
+/* xl */
+/* @media (min-width: 1280px) {} */
+
+/* 2xl */
+@media (min-width: 1536px) {
+    .createcourse-form__title {
+        font-size: var(--size-6xl);
+    }
+    .createcourse-form__label {
+        font-size: var(--size-3xl);
+    }
+    .createcourse-form__info-text {
+        font-size: var(--size-xl);
+    }
+    .createcourse-form__input {
+        font-size: var(--size-3xl);
+    }
+    .createcourse-form__input-aside-txt {
+        font-size: var(--size-3xl);
+    }
+    .createcourse-form__h2-title {
+        font-size: var(--size-5xl);
+    }
+    .createcourse-form__quiz-heading {
+        font-size: var(--size-3xl);
+    }
+    .createcourse-form__add-quest-btn {
+        font-size: var(--size-xl);
+    }
+    .createcourse-form__publish-btn {
+        font-size: var(--size-3xl);
+    }
+}

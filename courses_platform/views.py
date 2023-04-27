@@ -71,40 +71,36 @@ class EditProfileForm(forms.Form):
 
 
 class CreateCourseForm(forms.Form):
-    title = forms.CharField(label="Title",
-                            max_length=80,
+    title = forms.CharField(max_length=80,
                             required=True,
-                            widget=forms.TextInput())
-    image = forms.ImageField()
-    category = forms.ChoiceField(label="Course Category",
-                                 widget=forms.RadioSelect,
-                                 choices=Course.CATEGORY_CHOICES)
-    short_description = forms.CharField(label="Short Description",
-                                        required=True,
+                            widget=forms.TextInput(attrs={'class': 'createcourse-form__input'}))
+    image = forms.ImageField(widget=forms.ClearableFileInput(
+        attrs={'class': 'createcourse-form__input createcourse-form__input-imgfield'}))
+    category = forms.ChoiceField(widget=forms.Select(
+        attrs={'class': 'createcourse-form__input'}),
+        choices=Course.CATEGORY_CHOICES)
+    short_description = forms.CharField(required=True,
                                         max_length=200,
-                                        widget=forms.Textarea())
-    long_description = forms.CharField(label="About this course",
-                                       required=True,
+                                        widget=forms.Textarea(attrs={'class': 'createcourse-form__input createcourse-form__input-text-area'}))
+    long_description = forms.CharField(required=True,
                                        max_length=2000,
-                                       widget=forms.Textarea())
-    duration = forms.IntegerField(label="Course's Duration",
-                                  required=True,
+                                       widget=forms.Textarea(attrs={'class': 'createcourse-form__input createcourse-form__input-text-area'}))
+    duration = forms.IntegerField(required=True,
                                   min_value=2,
                                   max_value=24,
-                                  widget=forms.NumberInput())
-    language = forms.ChoiceField(label="Language",
-                                 widget=forms.RadioSelect,
-                                 choices=Course.LANGUAGE_CHOICES)
-    level = forms.ChoiceField(label="Level",
-                              widget=forms.RadioSelect,
-                              choices=Course.LEVEL_CHOICES)
-    certificate = forms.BooleanField(label="Certificate Upon Completion",
-                                     widget=forms.CheckboxInput)
-    passing_grade = forms.IntegerField(label="Passing Grade",
-                                       required=True,
+                                  widget=forms.NumberInput(attrs={'class': 'createcourse-form__input createcourse-form__input-sm'}))
+    language = forms.ChoiceField(widget=forms.Select(
+        attrs={'class': 'createcourse-form__input'}),
+        choices=Course.LANGUAGE_CHOICES)
+    level = forms.ChoiceField(widget=forms.Select(
+        attrs={'class': 'createcourse-form__input'}),
+        choices=Course.LEVEL_CHOICES)
+    certificate = forms.BooleanField(widget=forms.CheckboxInput(
+        attrs={'class': 'createcourse-form__input-checkbox'}))
+    passing_grade = forms.IntegerField(required=True,
                                        min_value=50,
                                        max_value=100,
-                                       widget=forms.NumberInput())
+                                       widget=forms.NumberInput(attrs={'class': 'createcourse-form__input createcourse-form__input-sm'}))
 
 
 def signup(request):
@@ -201,4 +197,10 @@ def signin(request):
 def index(request):
     return render(request, "courses_platform/index.html", {
         "authenticated_user": request.user
+    })
+
+
+def create_course(request):
+    return render(request, "courses_platform/create_course.html", {
+        "createCourseForm": CreateCourseForm()
     })
