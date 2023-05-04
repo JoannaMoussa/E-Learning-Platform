@@ -11,10 +11,9 @@ class UserAdmin(admin.ModelAdmin):
 
 
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ("instructor", "title", "category", "duration",
+    list_display = ("instructor", "title", "image", "category", "duration",
                     "language", "level", "prerequisite", "certificate",
-                    "passing_grade", "get_passers", "creation_date",
-                    "short_description", "long_description",)
+                    "passing_grade", "get_passers", "creation_date")
 
     def get_passers(self, obj):
         return "\n".join([passer.username for passer in obj.passers.all()])

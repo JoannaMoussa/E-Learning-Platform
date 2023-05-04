@@ -68,6 +68,9 @@ class Course(models.Model):
         "User", on_delete=models.CASCADE, related_name="courses_taught")
     title = models.CharField(max_length=80, validators=[
                              MinLengthValidator(10), MaxLengthValidator(80)])
+    # upload_to() to specify a subdirectory of MEDIA_ROOT to use for uploaded files.
+    image = models.ImageField(
+        upload_to="courses_images/", null=True, blank=True)
     category = models.PositiveSmallIntegerField(choices=CATEGORY_CHOICES)
     short_description = models.TextField(max_length=200, validators=[
                                          MinLengthValidator(50), MaxLengthValidator(200)])

@@ -87,9 +87,26 @@
     flex-direction: column;
     border: 4px solid var(--clr-dark);
     border-radius: 6px;
-    padding: 1em;
+    padding: 1.5em;
     max-width: 768px;
     margin-block-end: 1em;
+    position: relative;
+}
+
+.createcourse-form__label-quest-body {
+    margin-block-end: 0.5em;
+}
+
+.createcourse-form__quiz-del-btn {
+    position: absolute;
+    top: 0.25em;
+    right: 0.5em;
+    font-size: var(--size-2xl);
+    transition: font-size 0.1s linear 0s;
+}
+.createcourse-form__quiz-del-btn:hover {
+    font-size: var(--size-3xl);
+    color: red;
 }
 
 .createcourse-form__btn-cont {
@@ -107,7 +124,6 @@
 .createcourse-form__publish-btn {
     font-size: var(--size-xl);
 }
-
 
 /* xs */
 /* @media (min-width: 475px) {} */
@@ -130,11 +146,9 @@
         align-items: center;
     }
     .createcourse-form__field-grp {
-        display: flex;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 5em;
-    }
-    .createcourse-form__field-sub-grp {
-        flex: 1;
     }
 }
 
@@ -157,6 +171,12 @@
     }
     .createcourse-form__quiz-heading {
         font-size: var(--size-2xl);
+    }
+    .createcourse-form__quiz-del-btn {
+        font-size: var(--size-3xl);
+    }
+    .createcourse-form__quiz-del-btn:hover {
+        font-size: var(--size-4xl);
     }
     .createcourse-form__add-quest-btn {
         font-size: var(--size-lg);
@@ -191,6 +211,12 @@
     }
     .createcourse-form__quiz-heading {
         font-size: var(--size-3xl);
+    }
+    .createcourse-form__quiz-del-btn {
+        font-size: var(--size-4xl);
+    }
+    .createcourse-form__quiz-del-btn:hover {
+        font-size: var(--size-5xl);
     }
     .createcourse-form__add-quest-btn {
         font-size: var(--size-xl);

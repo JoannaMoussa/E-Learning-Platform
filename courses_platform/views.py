@@ -7,6 +7,13 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.conf import settings
+import json
+import secrets
+
+RANDOM_STR = secrets.token_hex(8)
+
 
 # Creating Django forms
 
@@ -23,11 +30,11 @@ class SignUpForm(forms.Form):
                                widget=forms.TextInput(attrs={'class': 'signup-form__input'}))
     email = forms.EmailField(required=True,
                              widget=forms.EmailInput(attrs={'class': 'signup-form__input'}))
-    password = forms.CharField(widget=forms.PasswordInput(
+    password = forms.CharField(required=True, widget=forms.PasswordInput(
         attrs={'class': 'signup-form__input'}))
-    confirm_password = forms.CharField(
-        widget=forms.PasswordInput(attrs={'class': 'signup-form__input'}))
-    role = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': 'signup-form__input'}),
+    confirm_password = forms.CharField(required=True,
+                                       widget=forms.PasswordInput(attrs={'class': 'signup-form__input'}))
+    role = forms.ChoiceField(required=True, widget=forms.RadioSelect(attrs={'class': 'signup-form__input'}),
                              choices=User.ROLE_CHOICES)
     title = forms.CharField(max_length=120,
                             required=False,
@@ -38,64 +45,61 @@ class SignUpForm(forms.Form):
 
 
 class SignInForm(forms.Form):
-    username = forms.CharField(max_length=150,
-                               required=True,
+    username = forms.CharField(required=True,
                                widget=forms.TextInput(attrs={'class': 'signin-form__input'}))
-    password = forms.CharField(label="Password",
+    password = forms.CharField(required=True,
                                widget=forms.PasswordInput(attrs={'class': 'signin-form__input'}))
 
 
 class EditProfileForm(forms.Form):
-    first_name = forms.CharField(label="First Name",
-                                 max_length=150,
+    first_name = forms.CharField(max_length=150,
                                  required=True,
                                  widget=forms.TextInput())
-    last_name = forms.CharField(label="Last Name",
-                                max_length=150,
+    last_name = forms.CharField(max_length=150,
                                 required=True,
                                 widget=forms.TextInput())
-    username = forms.CharField(label="Username",
-                               max_length=150,
+    username = forms.CharField(max_length=150,
                                required=True,
                                widget=forms.TextInput())
-    email = forms.EmailField(label="Email",
-                             disabled=True,
+    email = forms.EmailField(disabled=True,
                              widget=forms.EmailInput())
-    title = forms.CharField(label="Title",
+    title = forms.CharField(required=False,
                             max_length=120,
                             widget=forms.TextInput())
-    about_me = forms.CharField(label="About me",
-                               max_length=950,
+    about_me = forms.CharField(max_length=950,
                                required=True,
                                widget=forms.Textarea())
 
 
 class CreateCourseForm(forms.Form):
-    title = forms.CharField(max_length=80,
-                            required=True,
+    title = forms.CharField(required=True,
+                            min_length=10,
+                            max_length=80,
                             widget=forms.TextInput(attrs={'class': 'createcourse-form__input'}))
-    image = forms.ImageField(widget=forms.ClearableFileInput(
+    image = forms.ImageField(required=False, widget=forms.ClearableFileInput(
         attrs={'class': 'createcourse-form__input createcourse-form__input-imgfield'}))
-    category = forms.ChoiceField(widget=forms.Select(
+    category = forms.ChoiceField(required=True, widget=forms.Select(
         attrs={'class': 'createcourse-form__input'}),
         choices=Course.CATEGORY_CHOICES)
     short_description = forms.CharField(required=True,
+                                        min_length=50,
                                         max_length=200,
                                         widget=forms.Textarea(attrs={'class': 'createcourse-form__input createcourse-form__input-text-area'}))
     long_description = forms.CharField(required=True,
+                                       min_length=200,
                                        max_length=2000,
                                        widget=forms.Textarea(attrs={'class': 'createcourse-form__input createcourse-form__input-text-area'}))
     duration = forms.IntegerField(required=True,
                                   min_value=2,
                                   max_value=24,
                                   widget=forms.NumberInput(attrs={'class': 'createcourse-form__input createcourse-form__input-sm'}))
-    language = forms.ChoiceField(widget=forms.Select(
+    language = forms.ChoiceField(required=True, widget=forms.Select(
         attrs={'class': 'createcourse-form__input'}),
         choices=Course.LANGUAGE_CHOICES)
-    level = forms.ChoiceField(widget=forms.Select(
+    level = forms.ChoiceField(required=True, widget=forms.Select(
         attrs={'class': 'createcourse-form__input'}),
         choices=Course.LEVEL_CHOICES)
-    certificate = forms.BooleanField(widget=forms.CheckboxInput(
+    certificate = forms.BooleanField(required=False, widget=forms.CheckboxInput(
         attrs={'class': 'createcourse-form__input-checkbox'}))
     passing_grade = forms.IntegerField(required=True,
                                        min_value=50,
@@ -189,6 +193,9 @@ def signin(request):
                 "signInForm": SignInForm()
             })
     else:  # GET request
+        if request.user.is_authenticated:
+            return HttpResponseRedirect(reverse("index"))
+
         return render(request, "courses_platform/signin.html", {
             "signInForm": SignInForm()
         })
@@ -200,7 +207,148 @@ def index(request):
     })
 
 
+def question_body_validator(question_body):
+    return len(question_body) >= 10
+
+
+@login_required(login_url='/signin')
 def create_course(request):
-    return render(request, "courses_platform/create_course.html", {
-        "createCourseForm": CreateCourseForm()
-    })
+    def response_with_error(msg):
+        messages.error(
+            request, msg)
+        return render(request, "courses_platform/create_course.html", {
+            "createCourseForm": filled_form,
+            "quiz_data": zip(range(len(all_questions)), all_questions, all_options, all_correct_options),
+            "get_request": False
+        })
+
+    current_user = request.user
+    # make sure that only instructors can access that page
+    if current_user.role != User.INSTRUCTOR:
+        return HttpResponseRedirect(reverse("index"))
+
+    if request.method == "POST":
+        # get the values of CreateCourseForm() fileds
+        filled_form = CreateCourseForm(request.POST, request.FILES)
+
+        # get the values of the quiz questions fields
+        all_questions = request.POST.getlist('question_body')
+        all_options = request.POST.getlist('options')
+        all_correct_options = request.POST.getlist('correct_option')
+
+        if filled_form.is_valid():
+            new_course = Course()
+            new_course.instructor = current_user
+            new_course.title = filled_form.cleaned_data["title"]
+            new_course.image = filled_form.cleaned_data["image"]
+            new_course.category = int(filled_form.cleaned_data["category"])
+            new_course.short_description = filled_form.cleaned_data["short_description"]
+            new_course.long_description = filled_form.cleaned_data["long_description"]
+            new_course.duration = filled_form.cleaned_data["duration"]
+            new_course.language = int(filled_form.cleaned_data["language"])
+            new_course.level = int(filled_form.cleaned_data["level"])
+
+            # and request.POST["prerequisite"].isnumeric():
+            if request.POST["prerequisite"] != "":
+                try:
+                    course_id = int(request.POST["prerequisite"])
+                except ValueError:
+                    return response_with_error(
+                        "The id of the prerequisite course is invalid")
+                course_exists = Course.objects.filter(id=course_id).exists()
+                if course_exists:
+                    prerequisite_course = Course.objects.get(id=course_id)
+                    # An instructor can only choose prerequisite courses from his courses
+                    if prerequisite_course.instructor == current_user:
+                        new_course.prerequisite = prerequisite_course
+                    else:
+                        return response_with_error(
+                            "The id of the prerequisite course is invalid")
+
+            new_course.certificate = filled_form.cleaned_data["certificate"]
+            new_course.passing_grade = filled_form.cleaned_data["passing_grade"]
+            new_course.save()
+
+            # quiz section
+            # extract all questions and check if they are valid
+            all_questions = [question.strip() for question in all_questions]
+            all_questions_validator_list = map(
+                question_body_validator, all_questions)
+            # if False in all_questions_validator_list:
+            if not all(all_questions_validator_list):
+                return response_with_error(
+                    "The minimum length of the questions must be 10 characters")
+
+            # extract all questions' options and check if they are valid
+            if len(all_options) != len(all_questions):
+                return response_with_error(
+                    "You should specify options for every question")
+            # when spliting the options, I should handle the case where the user
+            # typed "\," to say that the comma is not meant to seperate options.
+            # so first, in the original string coming from the request, I replaced all "\," with a
+            # random string, to mask the comma from the split(",") method. Then I applied the split(",")
+            # After that, in every element from the splitted list, i replaced the random string with a comma
+            processed_all_options = []
+            for options in all_options:
+                options = options.replace("\\,", RANDOM_STR)
+                options = options.split(",")
+                options = [element.strip().replace(RANDOM_STR, ",")
+                           for element in options]
+                processed_all_options.append(options)
+                print(processed_all_options)
+
+            for options in processed_all_options:
+                if len(options) <= 1:
+                    return response_with_error(
+                        "Make sure to specify more than 1 option for every question")
+                for element in options:
+                    if element == "":
+                        return response_with_error(
+                            "Make sure none of the options are empty.")
+
+            # extract all correct options and check if they are valid
+            if len(all_correct_options) != len(all_questions):
+                return response_with_error(
+                    "Make sure to specify a correct option for every question")
+            # cast the index of the correct option to an integer
+            try:
+                processed_all_correct_options = [int(correct_option.strip()) - 1
+                                                 for correct_option in all_correct_options]
+            except ValueError:
+                return response_with_error(
+                    "Make sure the index of the correct option is valid")
+            for i in range(len(processed_all_correct_options)):
+                if not (0 <= processed_all_correct_options[i] < len(processed_all_options[i])):
+                    return response_with_error(
+                        "Make sure the index of the correct option is valid")
+
+            # data to be written in the quiz file
+            quiz_data = {
+                "all_questions": all_questions,
+                "all_options": processed_all_options,
+                "all_correct_options": processed_all_correct_options,
+            }
+            filename = f"{current_user.username}_{new_course.id}.json"
+            filepath = settings.QUIZES_ROOT / filename
+            if not settings.QUIZES_ROOT.exists():
+                settings.QUIZES_ROOT.mkdir()
+            # write data
+            json.dump(quiz_data, open(filepath, "w"))
+
+            messages.success(request, "Your course was created successfully!")
+            # TODO: redirect to instructor profile page
+            return HttpResponseRedirect(reverse("index"))
+
+        else:  # form is invalid
+            return response_with_error(
+                "The form is invalid. Make sure you followed all instructions")
+
+    else:  # Get request
+        prefilled_data = {'title': 'aaaaaaaaaaaaaaaaaa',
+                          'short_description': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                          'long_description': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+                          'duration': '2', 'certificate': 'on', 'passing_grade': '55'}
+        return render(request, "courses_platform/create_course.html", {
+            "createCourseForm": CreateCourseForm(prefilled_data),
+            "get_request": True
+        })

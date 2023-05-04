@@ -131,6 +131,15 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# MEDIA_ROOT is the full path to a directory where I’d like Django to store uploaded files.
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# MEDIA_URL it's the url that we type in the browser to access the uploaded file (eg: img) in the browser
+MEDIA_URL = '/media/'
+
+# Path of the "quizes" directory
+QUIZES_ROOT = BASE_DIR / "quizes"
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 

@@ -1,0 +1,18 @@
+{% extends "courses_platform/layout.html" %}
+
+{% load static %}
+
+{% block link %}
+    <link href="{% static 'courses_platform/pages/quiz.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <div class="my-container">
+        <h1>Quiz: {{ course_title }}</h1>
+        <p>The following questions are single choice questions. All questions 
+            have the same weight in the final grade. You need at least {{ course_passing_grade }}% 
+            to pass this quiz. Good Luck!
+        </p>
+        
+    </div>
+{% endblock %}
