@@ -1,0 +1,123 @@
+.result {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-block-start: 6em;
+}
+
+.result__course-title {
+    font-size: var(--size-2xl);
+    text-align: center;
+    margin-block-end: 1.5em;
+}
+
+.result__icon {
+    height: 100px;
+    width: 100px;
+}
+
+.result__grade {
+    font-size: var(--size-xl);
+    text-align: center;
+    margin-block-start: 1em;
+}
+
+.result__msg {
+    font-size: var(--size-xl);
+    text-align: center;
+}
+
+.result__btn {
+    font-size: var(--size-lg);
+    margin-block-start: 1em;
+}
+
+.result__anchor {
+    font-size: var(--size-lg);
+    text-align: center;
+    margin-block-start: 2em;
+}
+
+/* xs */
+/* @media (min-width: 475px) {} */
+
+/* sm */
+/* @media (min-width: 640px) {} */
+
+/* md */
+@media (min-width: 768px) {
+    .result__course-title {
+        font-size: var(--size-3xl);
+    }
+    
+    .result__grade {
+        font-size: var(--size-2xl);
+    }
+    
+    .result__msg {
+        font-size: var(--size-2xl);
+    }
+    
+    .result__btn {
+        font-size: var(--size-xl);
+    }
+    
+    .result__anchor {
+        font-size: var(--size-xl);
+    }
+} 
+
+/* lg */
+@media (min-width: 1024px) {
+    .result__course-title {
+        font-size: var(--size-4xl);
+    }
+    
+    .result__grade {
+        font-size: var(--size-3xl);
+    }
+    
+    .result__msg {
+        font-size: var(--size-3xl);
+    }
+    
+    .result__btn {
+        font-size: var(--size-2xl);
+    }
+    
+    .result__anchor {
+        font-size: var(--size-2xl);
+    }
+}
+
+/* xl */
+/*@media (min-width: 1280px) {}*/
+
+/* 2xl */
+@media (min-width: 1536px) {
+    .result__course-title {
+        font-size: var(--size-6xl);
+    }
+
+    .result__icon {
+        height: 300px;
+        width: 300px;
+    }
+    
+    .result__grade {
+        font-size: var(--size-5xl);
+    }
+    
+    .result__msg {
+        font-size: var(--size-5xl);
+    }
+    
+    .result__btn {
+        font-size: var(--size-4xl);
+    }
+    
+    .result__anchor {
+        font-size: var(--size-4xl);
+    }
+}

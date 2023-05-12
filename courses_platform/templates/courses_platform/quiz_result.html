@@ -1,0 +1,41 @@
+{% extends "courses_platform/layout.html" %}
+
+{% load static %}
+
+{% block link %}
+    <link href="{% static 'courses_platform/pages/quiz_result.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'courses_platform/components/confetti.js' %}"></script>
+    <script src="{% static 'courses_platform/pages/quiz_result.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+    {% if passed %}
+        <!--this div is used to trigger js confetti animation-->
+        <div id="success" style="display: none"></div>
+    {% endif %}
+    <div class="my-container result">
+        <p class="result__course-title">Quiz: {{ course.title }}</p>
+        {% if passed %}
+            <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" class="result__icon">
+                <path fill="#a2e889" d="M512 64a448 448 0 1 1 0 896 448 448 0 0 1 0-896zm-55.808 536.384-99.52-99.584a38.4 38.4 0 1 0-54.336 54.336l126.72 126.72a38.272 38.272 0 0 0 54.336 0l262.4-262.464a38.4 38.4 0 1 0-54.272-54.336L456.192 600.384z"/>
+            </svg>
+        {% else %}
+            <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" class="result__icon">
+                <path fill="#e8847d" d="M512 64a448 448 0 1 1 0 896 448 448 0 0 1 0-896zm0 393.664L407.936 353.6a38.4 38.4 0 1 0-54.336 54.336L457.664 512 353.6 616.064a38.4 38.4 0 1 0 54.336 54.336L512 566.336 616.064 670.4a38.4 38.4 0 1 0 54.336-54.336L566.336 512 670.4 407.936a38.4 38.4 0 1 0-54.336-54.336L512 457.664z"/>
+            </svg>
+        {% endif %}
+        <p class="result__grade">You got <strong>{{ grade }} / 100</strong></p>
+        {% if passed %}
+            <p class="result__msg">Congratulations! You passed the course!</p>
+        {% else %}
+            <p class="result__msg">Hard luck, you failed the quiz.</p>
+            <a href="{% url 'quiz' course.id %}" class="custom-button result__btn">Retake the quiz</a>
+        {% endif %}
+        <!--TODO: adjust the href, it should be course page not index-->
+        <p class="result__anchor">Go back to <a href="{% url 'index' %}">course's page</a></p>
+    </div>
+{% endblock %}
+

@@ -7,12 +7,30 @@
 {% endblock %}
 
 {% block body %}
-    <div class="my-container">
-        <h1>Quiz: {{ course_title }}</h1>
-        <p>The following questions are single choice questions. All questions 
-            have the same weight in the final grade. You need at least {{ course_passing_grade }}% 
-            to pass this quiz. Good Luck!
-        </p>
-        
+    <div class="my-container quiz">
+        <div class="quiz__title-instruction">
+            <h1 class="quiz__title">Quiz: {{ course.title }}</h1>
+            <p class="quiz__instruction">The following questions are single choice questions.<br>All questions 
+                have the same weight in the final grade.<br>You need at least 
+                <strong>{{ course.passing_grade }}%</strong> to pass this quiz. Good Luck!
+            </p>
+        </div>
+        <form action="" method="post" class="quiz__form">
+            {% csrf_token %}
+            {% for i, question, options in quiz_data %}
+                <div>
+                    <p class="quiz__quest-statement"><strong>Q{{ i }}. </strong>{{ question }}</p>
+                    <div class="quiz__options">
+                        {% for j, option in options %}
+                            <div class="quiz__single-option">
+                                <input type="radio" id="answer-{{ i }}-option-{{ j }}" name="answer-{{ i }}" value="{{ j }}" required>
+                                <label for="answer-{{ i }}-option-{{ j }}">{{ option }}</label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+                <input class="quiz__submit-btn custom-button" type="submit" value="Submit">
+        </form>
     </div>
 {% endblock %}

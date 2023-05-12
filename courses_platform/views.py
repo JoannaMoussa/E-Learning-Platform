@@ -344,11 +344,81 @@ def create_course(request):
                 "The form is invalid. Make sure you followed all instructions")
 
     else:  # Get request
-        prefilled_data = {'title': 'aaaaaaaaaaaaaaaaaa',
-                          'short_description': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-                          'long_description': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-                          'duration': '2', 'certificate': 'on', 'passing_grade': '55'}
         return render(request, "courses_platform/create_course.html", {
-            "createCourseForm": CreateCourseForm(prefilled_data),
+            "createCourseForm": CreateCourseForm(),
             "get_request": True
+        })
+
+
+@login_required(login_url='/signin')
+def quiz(request, course_id):
+    # try to get the course
+    try:
+        course = Course.objects.get(id=course_id)
+    except Course.DoesNotExist:
+        messages.error(request, "The course id is not valid")
+        return HttpResponseRedirect(reverse("index"))
+
+    current_user = request.user
+    # Verify that current user is allowed to access or submit the quiz
+    if current_user.role != User.STUDENT:
+        messages.error(request, "You must be a student to take the quiz")
+        # TODO: redirect to the course page instead of the index page
+        return HttpResponseRedirect(reverse("index"))
+    if course not in current_user.enrolled_courses.all():
+        messages.error(
+            request, "You must be enrolled in this course to take this quiz")
+        # TODO: redirect to the course page instead of the index page
+        return HttpResponseRedirect(reverse("index"))
+    if current_user in course.passers.all():
+        messages.warning(request, "You already passed this quiz")
+        # TODO: redirect to the course page instead of the index page
+        return HttpResponseRedirect(reverse("index"))
+
+    # Open the course's quiz file
+    quiz_filename = f"{course.instructor.username}_{course.id}.json"
+    quiz_filepath = settings.QUIZES_ROOT / quiz_filename
+    quiz_file = open(quiz_filepath)
+    # save json string as python dictionary
+    quiz_data = json.load(quiz_file)
+
+    # Processing all_options
+    # This is useful in order to put the value and id of the option input field in html
+    quiz_data["all_options"] = [
+        zip(range(1, len(options)+1), options) for options in quiz_data["all_options"]]
+
+    if request.method == "GET":
+        return render(request, "courses_platform/quiz.html", {
+            "course": course,
+            "quiz_data": zip(range(1, len(quiz_data["all_questions"]) + 1),
+                             quiz_data["all_questions"],
+                             quiz_data["all_options"])
+        })
+
+    if request.method == "POST":
+        passed = False
+        correct_answers = 0
+        for i in range(len(quiz_data["all_correct_options"])):
+            try:
+                current_answer = int(request.POST[f"answer-{i+1}"])
+            except (KeyError, ValueError):
+                messages.error(
+                    request, "An error occured, please resubmit the quiz")
+                return render(request, "courses_platform/quiz.html", {
+                    "course": course,
+                    "quiz_data": zip(range(1, len(quiz_data["all_questions"]) + 1),
+                                     quiz_data["all_questions"],
+                                     quiz_data["all_options"])
+                })
+            if quiz_data["all_correct_options"][i] == current_answer - 1:
+                correct_answers += 1
+        grade = round(
+            (correct_answers / len(quiz_data["all_correct_options"])) * 100)
+        if grade >= course.passing_grade:
+            passed = True
+            course.passers.add(current_user)
+        return render(request, "courses_platform/quiz_result.html", {
+            "course": course,
+            "passed": passed,
+            "grade": grade
         })
