@@ -1,7 +1,68 @@
 {% extends "courses_platform/layout.html" %}
 
+{% load static %}
+
+{% block link %}
+    <link href="{% static 'courses_platform/pages/index.css' %}" rel="stylesheet">
+{% endblock %}
+
 {% block body %}
- <div>
-    hello {{authenticated_user.username }}!
- </div>
+   <div class="my-container index">
+      {% if user.is_authenticated %}
+         <div class="index__greetings">Hello, <strong>{{ user.username }}</strong>!</div>
+      {% else %}
+         <div class="index__signup">Don't have an account? <a href="{% url 'signup' %}" class="index__anchor">Sign Up Now</a></div>
+         <div class="index__signin">Already have an account? <a href="{% url 'signin' %}" class="index__anchor">Sign In</a></div>
+      {% endif %}
+      <hr>
+      <h1 class="index__h1">Our Top Courses</h1>
+      <div class="index__cards-grid-wrapper">
+         <div class="index__cards-grid">
+            {% for course in top_courses %}
+               <div class="index__card">
+               {% if not course.image %}
+                  <img class="index__card-img" src="/media/courses_images/default_img.jpg" alt="Course's image">
+               {% else %}
+                  <img class="index__card-img" src="{{ course.image.url }}" alt="Course's image">
+               {% endif %}
+                  <div class="index__card-title">{{ course.title }}</div>
+                  <div class="index__card-description">
+                     <div class="index__card-duration">
+                        <i class="bi bi-clock-history"></i>
+                        <span>{{ course.duration }} weeks</span>
+                     </div>
+                     <div class="index__card-level">Level: {{ course.get_level_display }}</div>
+                  </div>
+               </div>
+            {% endfor %}
+         </div>
+      </div>
+      <div class="index__btn">
+         <a href="#" class="custom-button">Explore All Courses</a>
+      </div>
+      <hr>
+      <h1 class="index__h1">About Us</h1>
+      <p class="index__p">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce id eleifend risus, 
+         id faucibus arcu. Ut volutpat tortor dictum leo dignissim vehicula. Fusce semper 
+         eget urna laoreet malesuada. Sed auctor luctus molestie. Morbi quis ipsum odio. 
+         Nullam dignissim efficitur egestas. Vivamus ut volutpat velit, et congue mi. 
+         Aenean quam diam.Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      </p>
+      <hr>
+      <h1 class="index__h1">Connect With Us</h1>
+      <div class="index__icon-cont">
+         <a href="#"><i class="bi bi-facebook"></i></a>
+         <a href="#"><i class="bi bi-instagram"></i></a>
+         <a href="#"><i class="bi bi-linkedin"></i></a>
+      </div>
+      <footer class="index__footer">
+         <div class="index__address">
+            <div><strong>Main office</strong></div>
+            <div>
+               123 Anywhere St.<br>Any City, State<br>Any Country<br>(123) 456 7890
+            </div>
+         </div>
+         <div class="index__mail">For any inquiries: coursemedia@gmail.com</div>
+      </footer>
+   </div>
 {% endblock %}

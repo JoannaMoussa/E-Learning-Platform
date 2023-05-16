@@ -2,6 +2,7 @@
     --clr-dark: #312e81;
     --clr-light: #eef2ff;
     --clr-p-anchor: #6366f1;
+    --clr-card-bg: #E0E7FF;
   
     /* sizes */
     --size-xxs: 0.5rem;
@@ -34,6 +35,7 @@ html {
     --clr-light: #312e81;
     --clr-dark: #eef2ff;
     --clr-p-anchor: #e0e7ff;
+    /*--clr-card-bg: #eef2ff;*/
   }
 
 body {

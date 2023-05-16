@@ -202,8 +202,11 @@ def signin(request):
 
 
 def index(request):
+    courses = Course.objects.all()
+    top_courses = sorted(
+        courses, key=lambda course: course.enrolled_students.count(), reverse=True)[:6]
     return render(request, "courses_platform/index.html", {
-        "authenticated_user": request.user
+        "top_courses": top_courses
     })
 
 
