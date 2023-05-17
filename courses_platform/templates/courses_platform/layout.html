@@ -21,6 +21,7 @@
     {% endblock %}
     <script src="{% static 'courses_platform/components/mobile-nav.js' %}"></script>
     <script src="{% static 'courses_platform/components/messages.js' %}"></script>
+    <script src="{% static 'courses_platform/components/dark-mode.js' %}"></script>
 </head>
 <body>
     <header class="header my-container">
@@ -33,11 +34,13 @@
             </div>
             <ul class="header__menu">
                 <li>
-                    <a class="header__link" href="#all-courses">All Courses</a>
+                    <a class="header__link" href="#">All Courses</a>
                 </li>
+                {% if '/' == request.path %}
                 <li>
                     <a class="header__link" href="#about-us">About Us</a>
                 </li>
+                {% endif %} 
                 <li>
                     <button class="header__moon" id="theme-toggle">
                         <i class="bi bi-moon-stars-fill"></i>
@@ -67,9 +70,9 @@
             <button id="mobile-nav-close-btn" class="mobile-nav__close-btn">
                 <i class="bi bi-x-lg"></i>
             </button>
-            <h2 class="mobile-nav__title">
+            <h1 class="mobile-nav__title">
                 Menu
-            </h2>
+            </h1>
             <ul class="mobile-nav__menu">
                 {% if user.is_authenticated %}
                 <li>
@@ -87,13 +90,14 @@
                 <li>
                     <a class="mobile-nav__link" href="#all-courses">All Courses</a>
                 </li>
+                {% if '/' == request.path %}
                 <li>
                     <a class="mobile-nav__link" href="#about-us">About Us</a>
                 </li>
+                {% endif %}
                 <li class="mobile-nav__line"></li>
                 <li>
                     <button class="mobile-nav__moon" id="theme-toggle">
-                        <span class="mobile-nav__link">Dark Mode</span>
                         <i class="bi bi-moon-stars-fill"></i>
                     </button>
                 </li>

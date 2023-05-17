@@ -1,7 +1,7 @@
 :root {
     --clr-dark: #312e81;
     --clr-light: #eef2ff;
-    --clr-p-anchor: #6366f1;
+    --clr-p-anchor: #585bee /*#6366f1*/;
     --clr-card-bg: #E0E7FF;
   
     /* sizes */
@@ -32,16 +32,20 @@ html {
 }
 
 .dark-mode {
-    --clr-light: #312e81;
+    --clr-light: #1e1b4b;
     --clr-dark: #eef2ff;
     --clr-p-anchor: #e0e7ff;
-    /*--clr-card-bg: #eef2ff;*/
+    --clr-card-bg: #312e81;
   }
 
 body {
     font-family: 'General Sans', sans-serif;
     background-color: var(--clr-light);
     color: var(--clr-dark);
+}
+
+input, textarea {
+    color: #312e81;
 }
 
 img,

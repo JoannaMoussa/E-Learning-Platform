@@ -32,7 +32,6 @@
 .createcourse-form__input {
     font-size: var(--size-xl);
     height: fit-content;
-    color: var(--clr-dark);
     margin-block-end: 1.5em;
     max-width: 768px;
 }

@@ -34,7 +34,6 @@
 .signin-form__input {
     font-size: var(--size-xl);
     height: fit-content;
-    color: var(--clr-dark);
 }
 
 .signin-form__btn {
