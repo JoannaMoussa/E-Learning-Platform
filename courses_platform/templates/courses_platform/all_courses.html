@@ -1,0 +1,45 @@
+{% extends "courses_platform/layout.html" %}
+
+{% load static %}
+
+{% block link %}
+    <link href="{% static 'courses_platform/pages/all_courses.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <div class="my-container">
+        <h1>Explore All Courses</h1>
+        <div class="input-group">
+            <div class="input-group-prepend">
+            <span class="input-group-text"><i class="bi bi-search"></i></span>
+            </div>
+            <input type="text" name="">
+        </div>
+        <button class="custom-button">
+            <i class="bi bi-sort-down"></i>
+            <span>Sort and Filter</span>
+            <i class="bi bi-filter"></i>
+        </button>
+        <div class="all-courses__cards-grid-wrapper">
+            <div class="all-courses__cards-grid">
+               {% for course in all_courses %}
+                  <div class="all-courses__card">
+                  {% if not course.image %}
+                     <img class="all-courses__card-img" src="/media/courses_images/default_img.jpg" alt="Course's image">
+                  {% else %}
+                     <img class="all-courses__card-img" src="{{ course.image.url }}" alt="Course's image">
+                  {% endif %}
+                     <div class="all-courses__card-title">{{ course.title }}</div>
+                     <div class="all-courses__card-description">
+                        <div class="all-courses__card-duration">
+                           <i class="bi bi-clock-history"></i>
+                           <span>{{ course.duration }} weeks</span>
+                        </div>
+                        <div class="all-courses__card-level">Level: {{ course.get_level_display }}</div>
+                     </div>
+                  </div>
+               {% endfor %}
+            </div>
+         </div>
+    </div>
+{% endblock %}

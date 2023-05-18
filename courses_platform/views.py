@@ -425,3 +425,10 @@ def quiz(request, course_id):
             "passed": passed,
             "grade": grade
         })
+
+
+def all_courses(request):
+    all_courses = Course.objects.all()
+    return render(request, "courses_platform/all_courses.html", {
+        "all_courses": all_courses
+    })

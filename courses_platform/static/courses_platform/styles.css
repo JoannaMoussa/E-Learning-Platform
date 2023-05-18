@@ -1,7 +1,7 @@
 :root {
     --clr-dark: #312e81;
     --clr-light: #eef2ff;
-    --clr-p-anchor: #585bee /*#6366f1*/;
+    --clr-p-anchor: #585bee;
     --clr-card-bg: #E0E7FF;
   
     /* sizes */
@@ -21,6 +21,13 @@
     --size-9xl: 8rem;
     --size-10xl: 10rem;
 }
+
+.dark-mode {
+    --clr-dark: #eef2ff;
+    --clr-light: #1e1b4b;
+    --clr-p-anchor: #e0e7ff;
+    --clr-card-bg: #312e81;
+}
   
 * {
     margin: 0;
@@ -31,13 +38,6 @@ html {
     scroll-behavior: smooth;
 }
 
-.dark-mode {
-    --clr-light: #1e1b4b;
-    --clr-dark: #eef2ff;
-    --clr-p-anchor: #e0e7ff;
-    --clr-card-bg: #312e81;
-  }
-
 body {
     font-family: 'General Sans', sans-serif;
     background-color: var(--clr-light);
@@ -45,7 +45,31 @@ body {
 }
 
 input, textarea {
-    color: #312e81;
+    background-color: var(--clr-light);
+    border: 1px solid var(--clr-dark);
+    border-radius: 6px;
+    color: var(--clr-dark);
+    padding-inline-start: 0.25em;
+    padding-inline-end: 0.25em;
+}
+
+/* Overriding browser's default outline black color of the input/textarea fields when on focus */
+input:focus, textarea:focus{
+    outline: var(--clr-dark) solid 1.5px;
+}
+
+/* Overriding chrome's default styling for the autocompleted input and textarea fields */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+textarea:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px var(--clr-light) inset !important;
+    -webkit-text-fill-color: var(--clr-dark) !important;
+    border: 1px solid var(--clr-dark);
 }
 
 img,
