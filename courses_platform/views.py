@@ -11,6 +11,11 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 import json
 import secrets
+from django.http import JsonResponse
+import time
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_GET
+from django.db.models.functions import Length
 
 RANDOM_STR = secrets.token_hex(8)
 
@@ -428,7 +433,37 @@ def quiz(request, course_id):
 
 
 def all_courses(request):
-    all_courses = Course.objects.all()
     return render(request, "courses_platform/all_courses.html", {
-        "all_courses": all_courses
+        "Course": Course()
     })
+
+
+@require_GET
+def all_courses_api(request):
+    # filter courses
+    FILTER_OPTIONS = ["category", "duration", "language", "level"]
+    filter_param = {}
+    for option in FILTER_OPTIONS:
+        if request.GET.get(option) is not None:
+            if option == "duration":
+                # Conditions are seperated with commas. e.g.: gte-4,lt-8
+                duration_conditions = request.GET.get(option).split(",")
+                for element in duration_conditions:
+                    operator, value = element.split("-")
+                    filter_param[f"{option}__{operator}"] = int(value)
+            else:
+                filter_param[option] = request.GET.get(option)
+    filtered_courses = Course.objects.filter(**filter_param)
+
+    # Sort courses
+    sort_criteria = request.GET.get("sort")
+    if sort_criteria not in ["title", "-title", "creation_date", "popularity"]:
+        return JsonResponse({"error": "An error occured"}, status=400)
+
+    if sort_criteria == "popularity":
+        filtered_sorted_courses = sorted(
+            filtered_courses, key=lambda course: course.enrolled_students.count(), reverse=True)
+    else:
+        filtered_sorted_courses = filtered_courses.order_by(sort_criteria)
+
+    return JsonResponse([course.serialize() for course in filtered_sorted_courses], safe=False)

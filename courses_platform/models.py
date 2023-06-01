@@ -88,3 +88,15 @@ class Course(models.Model):
     passers = models.ManyToManyField(
         "User", blank=True, related_name="courses_passed")
     creation_date = models.DateField(auto_now_add=True)
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "image": self.image.url if self.image else "/media/courses_images/default_img.jpg",
+            "duration": self.duration,
+            "language": self.get_language_display(),
+            "level": self.get_level_display(),
+            "creation_date": self.creation_date.strftime("%B %Y"),
+            "enrolled_students": len(self.enrolled_students.all())
+        }

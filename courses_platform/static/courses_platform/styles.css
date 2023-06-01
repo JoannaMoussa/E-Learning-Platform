@@ -3,6 +3,7 @@
     --clr-light: #eef2ff;
     --clr-p-anchor: #585bee;
     --clr-card-bg: #E0E7FF;
+    --clr-overlay: #000;
   
     /* sizes */
     --size-xxs: 0.5rem;
@@ -27,6 +28,7 @@
     --clr-light: #1e1b4b;
     --clr-p-anchor: #e0e7ff;
     --clr-card-bg: #312e81;
+    --clr-overlay: #fff;
 }
   
 * {
@@ -44,7 +46,7 @@ body {
     color: var(--clr-dark);
 }
 
-input, textarea {
+input, textarea, select {
     background-color: var(--clr-light);
     border: 1px solid var(--clr-dark);
     border-radius: 6px;
@@ -54,11 +56,11 @@ input, textarea {
 }
 
 /* Overriding browser's default outline black color of the input/textarea fields when on focus */
-input:focus, textarea:focus{
+input:focus, textarea:focus, select:focus {
     outline: var(--clr-dark) solid 1.5px;
 }
 
-/* Overriding chrome's default styling for the autocompleted input and textarea fields */
+/* Overriding chrome's default styling for the autofilled input and textarea fields */
 input:-webkit-autofill,
 input:-webkit-autofill:hover, 
 input:-webkit-autofill:focus, 
@@ -73,8 +75,7 @@ textarea:-webkit-autofill:active {
 }
 
 img,
-picture,
-svg {
+picture {
     display: block;
     max-width: 100%;
     user-select: none;

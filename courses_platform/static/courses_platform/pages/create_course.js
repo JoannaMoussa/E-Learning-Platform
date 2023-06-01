@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let quiz = temp.content.cloneNode(true);
 
         // add event listener to "delete question" btn
-        let quizDeleteBtn = quiz.querySelector("#quiz-quest-del-btn");
+        let quizDeleteBtn = quiz.getElementById("quiz-quest-del-btn");
         quizDeleteBtn.addEventListener("click", () => {
             quizDeleteBtn.parentElement.remove();
         })

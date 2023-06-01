@@ -6,6 +6,17 @@
 
 .header__logo {
     font-size: var(--size-2xl);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.2em;
+}
+
+.header__icon {
+    height: 1em;
+}
+
+.header__platform-name {
     font-weight: bold;
 }
 
@@ -32,11 +43,7 @@
 @media (min-width: 1024px) {
     .header__nav {
         align-items: start;
-        padding: 1em;
-    }
-
-    .header__logo {        
-        font-size: var(--size-2xl);
+        padding: 1em 0em;
     }
 
     .header__menu {
@@ -51,11 +58,24 @@
         text-decoration: none;
     }
 
+    .header__btn-theme-toggle {
+        display: flex;
+    }
+
+    .header__profile {
+        display: flex;
+        align-items: center;
+        gap: 0.3em;
+    }
+
     .header__logout {
         border-left: solid 2px;
         padding-left: 1em;
         margin-left: -1em;
         font-size: var(--size-xl);
+        display: flex;
+        align-items: center;
+        gap: 0.3em;
     }
 
     .header__bars{

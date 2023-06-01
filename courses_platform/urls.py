@@ -9,5 +9,8 @@ urlpatterns = [
     path("signup", views.signup, name="signup"),
     path("createCourse", views.create_course, name="create_course"),
     path("<int:course_id>/quiz", views.quiz, name="quiz"),
-    path("allCourses", views.all_courses, name="all_courses")
+    path("allCourses", views.all_courses, name="all_courses"),
+
+    # API
+    path("allCoursesApi", views.all_courses_api, name="all_courses_api")
 ]

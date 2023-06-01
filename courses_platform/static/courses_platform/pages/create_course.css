@@ -38,6 +38,7 @@
 
 .createcourse-form__input-imgfield {
     max-width: 100%;
+    border: none;
 }
 
 .createcourse-form__input-checkbox {
@@ -65,7 +66,8 @@
 }
 .createcourse-form__hr {
     margin-block-start: 3em;
-    color: var(--clr-dark)
+    border-color: var(--clr-dark);
+    opacity: 0.33;
 }
 
 .createcourse-form__h2-title {
@@ -103,6 +105,11 @@
     font-size: var(--size-2xl);
     transition: font-size 0.1s linear 0s;
 }
+
+.createcourse-form__icon {
+    height: 1em;
+}
+
 .createcourse-form__quiz-del-btn:hover {
     font-size: var(--size-3xl);
     color: red;

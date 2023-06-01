@@ -6,11 +6,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     headerBars.addEventListener("click", () => {
         mobileNav.style.display = "flex";
-        document.body.style.overflowY = 'hidden';
+        document.body.style.overflowY = "hidden";
     })
     CloseBtn.addEventListener("click", () => {
         mobileNav.style.display = "none";
-        document.body.style.overflowY = 'auto';
+        document.body.style.overflowY = "auto";
     })
     mobileNavLinks.forEach(link => {
         link.addEventListener("click", () => {

@@ -36,6 +36,12 @@
     gap: 1.5em;
 }
 
+.mobile-nav__profile {
+    display: flex;
+    align-items: center;
+    gap: 0.3em;
+}
+
 .mobile-nav__link {
     text-decoration: none;
     font-weight: 600;
@@ -45,4 +51,8 @@
 .mobile-nav__line {
     border: 1px solid;
     padding-right: 1.5em;
+}
+
+.mobile-nav__icon {
+    height: 1em;
 }

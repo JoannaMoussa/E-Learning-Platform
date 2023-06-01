@@ -15,7 +15,7 @@
                 <strong>{{ course.passing_grade }}%</strong> to pass this quiz. Good Luck!
             </p>
         </div>
-        <form action="" method="post" class="quiz__form">
+        <form action="{% url 'quiz' %}" method="post" class="quiz__form">
             {% csrf_token %}
             {% for i, question, options in quiz_data %}
                 <div>

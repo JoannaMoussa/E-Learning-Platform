@@ -1,6 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const sunIcons = document.querySelectorAll("#theme-toggle-sun");
+    const moonIcons = document.querySelectorAll("#theme-toggle-moon");
     const themeToggleBtns = document.querySelectorAll("#theme-toggle");
     
+    // hide the sun icon from nav bar and from mobile menu
+    sunIcons.forEach(icon => {
+        icon.style.display = "none";
+    })
+
     // In the 2 lines of code below, we are specifying what the theme will be on mount 
     // (=on first page visit and on page reload), 
     // based on what the user chose last time he was on the website
@@ -18,20 +25,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // Events 
     themeToggleBtns.forEach(btn =>
         btn.addEventListener("click", () => {
-            // change the icon
-            if (btn.firstElementChild.classList.contains("bi-moon-stars-fill")) {
-                themeToggleBtns.forEach(btn => {
-                    btn.firstElementChild.classList.remove("bi-moon-stars-fill")
-                    btn.firstElementChild.classList.add("bi-brightness-high-fill")
+            // change the theme toggle icon
+            const sunIcon = document.getElementById("theme-toggle-sun");
+            if (sunIcon.style.display == "none") {
+                sunIcons.forEach(icon => {
+                    icon.style.display = "block";
+                })
+                moonIcons.forEach(icon => {
+                    icon.style.display = "none";
                 })
             }
             else {
-                themeToggleBtns.forEach(btn => {
-                    btn.firstElementChild.classList.remove("bi-brightness-high-fill")
-                    btn.firstElementChild.classList.add("bi-moon-stars-fill")
+                sunIcons.forEach(icon => {
+                    icon.style.display = "none";
+                })
+                moonIcons.forEach(icon => {
+                    icon.style.display = "block";
                 })
             }
 
+            // Give the class dark-mode to the body or remove it and update the local storage accordingly
             document.body.classList.toggle("dark-mode");
             if (document.body.classList.contains("dark-mode")) {
                 // The setItem() will create a key value pair inside our local storage
