@@ -34,8 +34,7 @@
             <p class="result__msg">Hard luck, you failed the quiz.</p>
             <a href="{% url 'quiz' course.id %}" class="custom-button result__btn">Retake the quiz</a>
         {% endif %}
-        <!--TODO: adjust the href, it should be course page not index-->
-        <p class="result__anchor">Go back to <a href="{% url 'index' %}">course's page</a></p>
+        <p class="result__anchor">Go back to <a href="{% url 'course_page' course.id %}">course's page</a></p>
     </div>
 {% endblock %}
 

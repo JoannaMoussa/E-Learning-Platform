@@ -364,7 +364,7 @@ def quiz(request, course_id):
     try:
         course = Course.objects.get(id=course_id)
     except Course.DoesNotExist:
-        messages.error(request, "The course id is not valid")
+        messages.error(request, "Invalid course id")
         return HttpResponseRedirect(reverse("index"))
 
     current_user = request.user
@@ -467,3 +467,36 @@ def all_courses_api(request):
         filtered_sorted_courses = filtered_courses.order_by(sort_criteria)
 
     return JsonResponse([course.serialize() for course in filtered_sorted_courses], safe=False)
+
+
+def course_page(request, course_id):
+    try:
+        course = Course.objects.get(id=course_id)
+    except Course.DoesNotExist:
+        messages.error(request, "Invalid course id")
+        return HttpResponseRedirect(reverse("index"))
+
+    enrolled_students = course.enrolled_students.order_by("last_name")
+    same_category_courses = Course.objects.filter(
+        category=course.category).exclude(id=course.id)[:3]
+    return render(request, "courses_platform/course_page.html", {
+        "course": course,
+        "enrolled_students": enrolled_students,
+        "same_category_courses": same_category_courses
+    })
+
+
+def course_enroll(request, course_id):
+    try:
+        course = Course.objects.get(id=course_id)
+    except Course.DoesNotExist:
+        messages.error(request, "Invalid course id")
+        return HttpResponseRedirect(reverse("index"))
+
+    if request.user in course.enrolled_students.all():
+        messages.error(request, "An error occured")
+        return HttpResponseRedirect(reverse("course_page", kwargs={"course_id": course_id}))
+
+    course.enrolled_students.add(request.user)
+    messages.success(request, "Enrolment Successfull")
+    return HttpResponseRedirect(reverse("course_page", kwargs={"course_id": course_id}))

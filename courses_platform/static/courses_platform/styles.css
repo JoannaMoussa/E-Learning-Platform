@@ -1,6 +1,8 @@
 :root {
     --clr-dark: #312e81;
     --clr-light: #eef2ff;
+    --clr-light-a0: #eef2ff00;
+    --clr-light-a05: #eef2ff89;
     --clr-p-anchor: #585bee;
     --clr-card-bg: #E0E7FF;
     --clr-overlay: #000;
@@ -26,6 +28,8 @@
 .dark-mode {
     --clr-dark: #eef2ff;
     --clr-light: #1e1b4b;
+    --clr-light-a0: #1e1b4b00;
+    --clr-light-a05: #1e1b4b89;
     --clr-p-anchor: #e0e7ff;
     --clr-card-bg: #312e81;
     --clr-overlay: #fff;

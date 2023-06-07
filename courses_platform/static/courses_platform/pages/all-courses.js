@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     load_courses("title");
 
     const sortFilterBtn = document.getElementById("sort-filter-btn");
-    const sortFilterBtnTxt = document.getElementById("sort-filter-btn-txt");
+    const sortFilterBtnTxtComplement = document.getElementById("sort-filter-btn-txt-complement");
     const sortFilterCont = document.getElementById("sort-filter-cont");
     const sortFilterApplyBtn = document.getElementById("sort-filter-apply-btn");
     const sortFilterCloseBtn = document.getElementById("sort-filter-close-btn");
@@ -55,10 +55,10 @@ document.addEventListener('DOMContentLoaded', () => {
         pageCover.style.display = "none";
         // Add number of filters applied
         if (Object.keys(filterData).length === 0) {
-            sortFilterBtnTxt.innerHTML =  "Sort and Filter";
+            sortFilterBtnTxtComplement.innerHTML =  "";
         }
         else {
-            sortFilterBtnTxt.innerHTML =  `Sort and Filter (${Object.keys(filterData).length})`;
+            sortFilterBtnTxtComplement.innerHTML = ` (${Object.keys(filterData).length})`;
         }
     })
 });
@@ -102,6 +102,7 @@ function load_courses(sortParameter, filterDict={}) {
             let temp = document.getElementById("cards-template");
             let course_card = temp.content.cloneNode(true);
 
+            course_card.getElementById("card-anchor").setAttribute("href", `courses/${course.id}`);
             course_card.getElementById("card-img").setAttribute("src", course.image);
             course_card.getElementById("card-title").innerHTML = course.title;
             course_card.getElementById("card-duration").innerHTML = `${course.duration} weeks`;
