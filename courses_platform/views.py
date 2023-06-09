@@ -360,7 +360,6 @@ def create_course(request):
 
 @login_required(login_url='/signin')
 def quiz(request, course_id):
-    # try to get the course
     try:
         course = Course.objects.get(id=course_id)
     except Course.DoesNotExist:
@@ -368,20 +367,17 @@ def quiz(request, course_id):
         return HttpResponseRedirect(reverse("index"))
 
     current_user = request.user
-    # Verify that current user is allowed to access or submit the quiz
+    # Verify that current user is allowed to access the quiz
     if current_user.role != User.STUDENT:
         messages.error(request, "You must be a student to take the quiz")
-        # TODO: redirect to the course page instead of the index page
-        return HttpResponseRedirect(reverse("index"))
+        return HttpResponseRedirect(reverse("course_page", kwargs={"course_id": course_id}))
     if course not in current_user.enrolled_courses.all():
         messages.error(
             request, "You must be enrolled in this course to take this quiz")
-        # TODO: redirect to the course page instead of the index page
-        return HttpResponseRedirect(reverse("index"))
+        return HttpResponseRedirect(reverse("course_page", kwargs={"course_id": course_id}))
     if current_user in course.passers.all():
         messages.warning(request, "You already passed this quiz")
-        # TODO: redirect to the course page instead of the index page
-        return HttpResponseRedirect(reverse("index"))
+        return HttpResponseRedirect(reverse("course_page", kwargs={"course_id": course_id}))
 
     # Open the course's quiz file
     quiz_filename = f"{course.instructor.username}_{course.id}.json"
@@ -486,6 +482,7 @@ def course_page(request, course_id):
     })
 
 
+@login_required(login_url='/signin')
 def course_enroll(request, course_id):
     try:
         course = Course.objects.get(id=course_id)
@@ -500,3 +497,67 @@ def course_enroll(request, course_id):
     course.enrolled_students.add(request.user)
     messages.success(request, "Enrolment Successfull")
     return HttpResponseRedirect(reverse("course_page", kwargs={"course_id": course_id}))
+
+
+def user_profile(request, user_id):
+    try:
+        current_user = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        messages.error(request, "Invalid user id")
+        return HttpResponseRedirect(reverse("index"))
+
+    if current_user.role == User.STUDENT:
+        passed_courses = current_user.courses_passed.all().order_by("title")
+        enrolled_not_passed_courses = []
+        enrolled_courses = current_user.enrolled_courses.all().order_by("title")
+        for course in enrolled_courses:
+            if course not in current_user.courses_passed.all():
+                enrolled_not_passed_courses.append(course)
+        return render(request, "courses_platform/student_profile.html", {
+            "current_user": current_user,
+            "user_class": User(),
+            "passed_courses": passed_courses,
+            "enrolled_not_passed_courses": enrolled_not_passed_courses
+        })
+    elif current_user.role == User.INSTRUCTOR:
+        return render(request, "courses_platform/instructor_profile.html", {
+            "current_user": current_user,
+            "user_class": User()
+        })
+    else:
+        messages.error(request, "An error occured")
+        return HttpResponseRedirect(reverse("index"))
+
+
+def completed_courses(request, user_id):
+    try:
+        current_user = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        messages.error(request, "Invalid user id")
+        return HttpResponseRedirect(reverse("index"))
+
+    passed_courses = current_user.courses_passed.all().order_by("title")
+
+    return render(request, "courses_platform/completed_courses.html", {
+        "current_user": current_user,
+        "passed_courses": passed_courses
+    })
+
+
+def enrolled_courses(request, user_id):
+    try:
+        current_user = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        messages.error(request, "Invalid user id")
+        return HttpResponseRedirect(reverse("index"))
+
+    enrolled_not_passed_courses = []
+    enrolled_courses = current_user.enrolled_courses.all().order_by("title")
+    for course in enrolled_courses:
+        if course not in current_user.courses_passed.all():
+            enrolled_not_passed_courses.append(course)
+
+    return render(request, "courses_platform/enrolled_courses.html", {
+        "current_user": current_user,
+        "enrolled_not_passed_courses": enrolled_not_passed_courses
+    })

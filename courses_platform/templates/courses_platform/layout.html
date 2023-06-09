@@ -57,7 +57,7 @@
                 </li>
                 {% if user.is_authenticated %}
                     <li>
-                        <a class="header__link header__profile" href="#">
+                        <a class="header__link header__profile" href="{% url 'user_profile' user.id %}">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="header__icon" viewBox="0 0 16 16">
                                 <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
                                 <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
@@ -95,7 +95,7 @@
             <ul class="mobile-nav__menu">
                 {% if user.is_authenticated %}
                 <li>
-                    <a class="mobile-nav__link mobile-nav__profile">
+                    <a class="mobile-nav__link mobile-nav__profile" href="{% url 'user_profile' user.id %}">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="mobile-nav__icon" viewBox="0 0 16 16">
                             <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
                             <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>

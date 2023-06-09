@@ -1,0 +1,67 @@
+.profile-courses__main-container {
+    margin-block-start: 2em;
+    margin-block-end: 2em;
+}
+
+.profile-courses__h1 {
+    font-size: var(--size-2xl);
+    margin-block-end: 1em;
+    text-align: center;
+}
+
+.profile-courses__a {
+    color: var(--clr-p-anchor);
+    font-size: var(--size-xl);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    margin-block-end: 1em;
+}
+
+.profile-courses__icon {
+    height: 1em;
+}
+
+
+/* xs */
+/* @media (min-width: 475px) {} */
+
+/* sm */
+/* @media (min-width: 640px) {} */
+
+/* md */
+@media (min-width: 768px) {
+    .profile-courses__h1 {
+        font-size: var(--size-3xl);
+    }
+
+    .profile-courses__a {
+        font-size: var(--size-2xl);
+    }
+}
+
+/* lg */
+@media (min-width: 1024px) {
+    .profile-courses__h1 {
+        font-size: var(--size-4xl);
+    }
+
+    .profile-courses__a {
+        font-size: var(--size-3xl);
+    }
+}
+
+/* xl */
+/* @media (min-width: 1280px) {} */
+
+/* 2xl */
+@media (min-width: 1536px) {
+    .profile-courses__h1 {
+        font-size: var(--size-5xl);
+    }
+
+    .profile-courses__a {
+        font-size: var(--size-4xl);
+    }
+}
