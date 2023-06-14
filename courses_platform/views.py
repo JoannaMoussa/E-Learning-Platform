@@ -59,21 +59,22 @@ class SignInForm(forms.Form):
 class EditProfileForm(forms.Form):
     first_name = forms.CharField(max_length=150,
                                  required=True,
-                                 widget=forms.TextInput())
+                                 widget=forms.TextInput(attrs={'class': 'edit-profile-form__input'}))
     last_name = forms.CharField(max_length=150,
                                 required=True,
-                                widget=forms.TextInput())
-    username = forms.CharField(max_length=150,
-                               required=True,
-                               widget=forms.TextInput())
+                                widget=forms.TextInput(attrs={'class': 'edit-profile-form__input'}))
+    username = forms.CharField(disabled=True,
+                               required=False,
+                               widget=forms.TextInput(attrs={'class': 'edit-profile-form__input'}))
     email = forms.EmailField(disabled=True,
-                             widget=forms.EmailInput())
+                             required=False,
+                             widget=forms.EmailInput(attrs={'class': 'edit-profile-form__input'}))
     title = forms.CharField(required=False,
                             max_length=120,
-                            widget=forms.TextInput())
+                            widget=forms.TextInput(attrs={'class': 'edit-profile-form__input'}))
     about_me = forms.CharField(max_length=950,
                                required=True,
-                               widget=forms.Textarea())
+                               widget=forms.Textarea(attrs={'class': 'edit-profile-form__input edit-profile-form__input_textarea'}))
 
 
 class CreateCourseForm(forms.Form):
@@ -344,8 +345,7 @@ def create_course(request):
             json.dump(quiz_data, open(filepath, "w"))
 
             messages.success(request, "Your course was created successfully!")
-            # TODO: redirect to instructor profile page
-            return HttpResponseRedirect(reverse("index"))
+            return HttpResponseRedirect(reverse("user_profile", kwargs={"user_id": current_user.id}))
 
         else:  # form is invalid
             return response_with_error(
@@ -490,6 +490,10 @@ def course_enroll(request, course_id):
         messages.error(request, "Invalid course id")
         return HttpResponseRedirect(reverse("index"))
 
+    if request.user.role == User.INSTRUCTOR:
+        messages.error(request, "Only students can enroll")
+        return HttpResponseRedirect(reverse("course_page", kwargs={"course_id": course_id}))
+
     if request.user in course.enrolled_students.all():
         messages.error(request, "An error occured")
         return HttpResponseRedirect(reverse("course_page", kwargs={"course_id": course_id}))
@@ -515,14 +519,17 @@ def user_profile(request, user_id):
                 enrolled_not_passed_courses.append(course)
         return render(request, "courses_platform/student_profile.html", {
             "current_user": current_user,
-            "user_class": User(),
             "passed_courses": passed_courses,
             "enrolled_not_passed_courses": enrolled_not_passed_courses
         })
     elif current_user.role == User.INSTRUCTOR:
+        courses_taught = current_user.courses_taught.all()
+        total_nb_students_enrolled = 0
+        for course in courses_taught:
+            total_nb_students_enrolled += len(course.enrolled_students.all())
         return render(request, "courses_platform/instructor_profile.html", {
             "current_user": current_user,
-            "user_class": User()
+            "total_nb_students_enrolled": total_nb_students_enrolled
         })
     else:
         messages.error(request, "An error occured")
@@ -561,3 +568,39 @@ def enrolled_courses(request, user_id):
         "current_user": current_user,
         "enrolled_not_passed_courses": enrolled_not_passed_courses
     })
+
+
+@login_required(login_url='/signin')
+def edit_profile(request):
+    if request.method == "GET":
+        user_infos = {
+            "first_name": request.user.first_name,
+            "last_name": request.user.last_name,
+            "title": request.user.instructor_title if request.user.role == request.user.INSTRUCTOR else None,
+            "about_me": request.user.about
+        }
+        # Django disregards the disabled fields, so the only way to set their initial values is to use ".initial"
+        filled_form = EditProfileForm(user_infos)
+        filled_form.fields['email'].initial = request.user.email
+        filled_form.fields['username'].initial = request.user.username
+
+        return render(request, "courses_platform/edit_profile.html", {
+            "EditProfileForm": filled_form
+        })
+
+    elif request.method == "POST":
+        edits_data = EditProfileForm(request.POST)
+        if edits_data.is_valid():
+            if edits_data.cleaned_data["first_name"] != request.user.first_name:
+                request.user.first_name = edits_data.cleaned_data["first_name"]
+            if edits_data.cleaned_data["last_name"] != request.user.last_name:
+                request.user.last_name = edits_data.cleaned_data["last_name"]
+            if request.user.role == request.user.INSTRUCTOR:
+                if edits_data.cleaned_data["title"] != request.user.instructor_title:
+                    request.user.instructor_title = edits_data.cleaned_data["title"]
+            if edits_data.cleaned_data["about_me"] != request.user.about:
+                request.user.about = edits_data.cleaned_data["about_me"]
+            request.user.save()
+
+            messages.success(request, "You edited your profile successfully")
+            return HttpResponseRedirect(reverse("user_profile", kwargs={"user_id": request.user.id}))

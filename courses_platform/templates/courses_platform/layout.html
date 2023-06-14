@@ -9,7 +9,7 @@
     <title>{% block title %}{% endblock %}</title>
     <link href="{% static 'courses_platform/modern-normalize.css' %}" rel="stylesheet">
     <link href="{% static 'courses_platform/styles.css' %}" rel="stylesheet">
-    <link href="{% static 'courses_platform/components/header.css' %}" rel="stylesheet">
+    <link href="{% static 'courses_platform/components/layout.css' %}" rel="stylesheet">
     <link href="{% static 'courses_platform/components/mobile-nav.css' %}" rel="stylesheet">
     <link href="{% static 'courses_platform/components/messages.css' %}" rel="stylesheet">
     {% block link %}
@@ -30,7 +30,7 @@
                         <path d="M5 0h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2 2 2 0 0 1-2 2H3a2 2 0 0 1-2-2h1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1H1a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v9a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1H3a2 2 0 0 1 2-2z"/>
                         <path d="M1 6v-.5a.5.5 0 0 1 1 0V6h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V9h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 2.5v.5H.5a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1H2v-.5a.5.5 0 0 0-1 0z"/>
                     </svg>
-                    <span class="header__platform-name">CourseMedia</span>
+                    <span class="header__platform-name" title="Go back to main page">CourseMedia</span>
                 </a>
             </div>
             <ul class="header__menu">
@@ -72,6 +72,19 @@
                         </svg>
                         <a class="header__link" href="{% url 'logout' %}">Log Out</a>
                     </li>
+                {% else %}
+                    {% if request.path not in '"/", "/signin", "/signup"' %}
+                    <li>
+                        <a class="header__link header__profile" href="{% url 'signin' %}">
+                            Sign in
+                        </a>
+                    </li>
+                    <li>
+                        <a class="header__link header__profile" href="{% url 'signup' %}">
+                            Sign up
+                        </a>
+                    </li>
+                    {% endif %}
                 {% endif %}
             </ul>
             <button id="header-bars" class="header__bars">
@@ -143,7 +156,32 @@
 
     {% include 'courses_platform/includes/messages.html' %}
 
+    <div class="content">
     {% block body %}
     {% endblock %}
+    </div>
+
+    <footer class="my-container footer">
+        <div class="footer__first-cont">
+            <div>For any inquiries:</div>
+            <div>coursemedia@gmail.com</div>
+        </div>
+        <div class="footer__second-cont">
+            <div class="footer__sub-cont">
+                <div><strong>Main office</strong></div>
+                <div>
+                   <div>123 Anywhere St.</div>
+                   <div>City, Country</div>
+                   <div>(123) 456 7890</div>
+                </div>
+             </div>
+             <div class="footer__sub-cont">
+                <div><strong>Legal</strong></div>
+                 <a class="footer__a" href="#">Terms & Conditions</a>
+                 <a class="footer__a" href="#">Privacy Policy</a>
+                 <a class="footer__a" href="#">Company Details</a>
+             </div>
+        </div>
+    </footer>
 </body>
 </html>

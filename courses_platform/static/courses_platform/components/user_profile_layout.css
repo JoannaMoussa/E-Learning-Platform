@@ -26,6 +26,11 @@
     gap: 1em;
 }
 
+.profile__reward-icon-cont {
+    display: flex;
+    align-items: center;
+}
+
 .profile__reward-icon {
     height: 1em;
 }

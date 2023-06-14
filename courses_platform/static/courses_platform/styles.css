@@ -6,6 +6,8 @@
     --clr-p-anchor: #585bee;
     --clr-card-bg: #E0E7FF;
     --clr-overlay: #000;
+    --clr-bg-disabled-input: #e0e0e0;
+    --clr-txt-disabled-input: #312e81;
   
     /* sizes */
     --size-xxs: 0.5rem;
@@ -48,6 +50,9 @@ body {
     font-family: 'General Sans', sans-serif;
     background-color: var(--clr-light);
     color: var(--clr-dark);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 input, textarea, select {

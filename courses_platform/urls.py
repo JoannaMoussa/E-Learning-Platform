@@ -17,6 +17,9 @@ urlpatterns = [
          views.completed_courses, name="completed_courses"),
     path("profile/<int:user_id>/enrolledCourses",
          views.enrolled_courses, name="enrolled_courses"),
+    path("editProfile",
+         views.edit_profile, name="edit_profile"),
+
 
     # API
     path("allCoursesApi", views.all_courses_api, name="all_courses_api")

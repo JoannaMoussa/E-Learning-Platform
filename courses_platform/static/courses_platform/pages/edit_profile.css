@@ -1,75 +1,68 @@
-.signup-form {
+.edit-profile-form {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 2.5em;
+    margin-block-start: 2em;
     margin-block-end: 2em;
 }
 
-.signup-form__title {
+.edit-profile-form__h1 {
     font-size: var(--size-2xl);
-    font-weight: 600;
-    text-align: center;
-    margin-block-start: 1em;
 }
 
-.signup-form__body {
+.edit-profile-form__body {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.signup-form__grid {
+.edit-profile-form__grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
     gap: 2em;
 }
 
-.signup-form__label{
+.edit-profile-form__label {
     font-size: var(--size-xl);
     white-space: nowrap;
 }
 
-.signup-form__conf-pass-label {
-    white-space: normal;
-}
-
-.signup-form__input {
+.edit-profile-form__input {
     font-size: var(--size-xl);
     height: fit-content;
 }
 
-.signup-form__input-red-border {
-    border: 3px solid #db555b;
+.edit-profile-form__input:disabled {
+    background-color: var(--clr-bg-disabled-input);
+    color: var(--clr-txt-disabled-input);
 }
 
-.signup-form__input_textarea {
+.edit-profile-form__input_textarea {
     height: 4em;
     resize: none;
 }
 
-.hidden-element {
-    display: none;
-}
-
-.signup-form__btn {
+.edit-profile-form__btn {
     margin-block-start: 2em;
     font-size: var(--size-xl);
 }
+
 
 /* xs */
 /* @media (min-width: 475px) {} */
 
 /* sm */
 @media (min-width: 640px) {
-    .signup-form__title {
+    .edit-profile-form__h1 {
         font-size: var(--size-3xl);
     }
-    .signup-form__label{
+    .edit-profile-form__label {
         font-size: var(--size-2xl);
     }
-    .signup-form__input{
+    
+    .edit-profile-form__input {
         font-size: var(--size-2xl);
     }
 }
@@ -79,12 +72,12 @@
 
 /* lg */
 @media (min-width: 1024px) {
-    .signup-form__title {
+    .edit-profile-form__h1 {
         font-size: var(--size-4xl);
         margin-block-end: 1.25em;
     }
 
-    .signup-form__btn {
+    .edit-profile-form__btn {
         font-size: var(--size-2xl);
     }
 }
@@ -94,15 +87,15 @@
 
 /* 2xl */
 @media (min-width: 1536px) {
-    .signup-form__title {
+    .edit-profile-form__h1 {
         font-size: var(--size-5xl);
     }
 
-    .signup-form__label{
+    .edit-profile-form__label {
         font-size: var(--size-3xl);
     }
-
-    .signup-form__input{
+    
+    .edit-profile-form__input {
         font-size: var(--size-3xl);
     }
 }

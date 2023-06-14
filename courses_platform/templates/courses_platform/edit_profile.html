@@ -1,0 +1,33 @@
+{% extends "courses_platform/layout.html" %}
+
+{% load static %}
+
+{% block link %}
+    <link href="{% static 'courses_platform/pages/edit_profile.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    <div class="my-container edit-profile-form">
+        <h1 class="edit-profile-form__h1">Edit Profile</h1>
+        <form action="{% url 'edit_profile' %}" method="post" class="edit-profile-form__body">
+            {% csrf_token %}
+            <div class="edit-profile-form__grid">
+                <label for="id_first_name" class="edit-profile-form__label">First Name</label>
+                {{ EditProfileForm.first_name }}
+                <label for="id_last_name" class="edit-profile-form__label">Last Name</label>
+                {{ EditProfileForm.last_name }}
+                <label for="id_username" class="edit-profile-form__label">Username</label>
+                {{ EditProfileForm.username }}
+                <label for="id_email" class="edit-profile-form__label">Email</label>
+                {{ EditProfileForm.email }}
+                {% if user.role == user.INSTRUCTOR %}
+                    <label for="id_title" class="edit-profile-form__label">Title</label>
+                    {{ EditProfileForm.title }}
+                {% endif %}
+                <label for="id_about_me" class="edit-profile-form__label">About me</label>
+                {{ EditProfileForm.about_me }}
+            </div>
+            <input class="custom-button edit-profile-form__btn" type="submit" value="Save changes">
+        </form>
+    </div>
+{% endblock %}
