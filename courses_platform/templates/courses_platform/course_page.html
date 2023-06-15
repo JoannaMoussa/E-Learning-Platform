@@ -176,6 +176,7 @@
                     <tr>
                         <th>First Name</th>
                         <th>Last Name</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -183,6 +184,11 @@
                     <tr>
                         <td>{{ student.first_name }}</td>
                         <td>{{ student.last_name }}</td>
+                        {% if student in course.passers.all %}
+                            <td>Passed</td>
+                        {% else %}
+                            <td>Enrolled</td>
+                        {% endif %}
                     </tr>
                     {% endfor %}
                 </tbody>
