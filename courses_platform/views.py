@@ -234,6 +234,7 @@ def create_course(request):
     current_user = request.user
     # make sure that only instructors can access that page
     if current_user.role != User.INSTRUCTOR:
+        messages.error(request, "Only instructors can access that page")
         return HttpResponseRedirect(reverse("index"))
 
     if request.method == "POST":

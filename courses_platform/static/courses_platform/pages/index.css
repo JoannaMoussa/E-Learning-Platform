@@ -17,6 +17,13 @@
 
 .index__anchor {
     color: var(--clr-p-anchor);
+    text-decoration: none;
+    border-bottom: solid 2px transparent;
+    transition: border-bottom 0.1s linear;
+}
+
+.index__anchor:hover {
+    border-bottom: solid 2px var(--clr-p-anchor);
 }
 
 .index__hr {

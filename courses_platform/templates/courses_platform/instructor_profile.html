@@ -50,9 +50,11 @@
                {% endfor %}
             </div>
          </div>
+         {% if current_user.courses_taught > 3 %}
          <div class="i-profile__course-display-btn-cont">
             <button id="show-all-courses" class="i-profile__course-display-btn">See all courses taught by {{ current_user.username }}</button>
             <button id="show-less-courses" class="i-profile__course-display-btn">See less courses</button>
          </div>
+         {% endif %}
     </section>
 {% endblock %}

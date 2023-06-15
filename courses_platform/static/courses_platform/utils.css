@@ -25,9 +25,13 @@
     color: var(--clr-light);
     padding: 0.5em 1em;
     border-radius: 6px;
+    transition: transform 0.1s linear;
   }
-  
-  
+
+  .custom-button:hover {
+    transform: scale(1.05); 
+  }
+
   .my-container {
     width: 100%;
     margin-left: auto;

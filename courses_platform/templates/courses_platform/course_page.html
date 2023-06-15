@@ -159,7 +159,7 @@
                         <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
                     </svg>
                     <div class="course__instr-info">
-                        <div class="course-card__card-title">{{ course.instructor.first_name }} {{ course.instructor.last_name }}</div>
+                        <div class="course-card__card-title course__instr-name">{{ course.instructor.first_name }} {{ course.instructor.last_name }}</div>
                         <div class="course__instr-title">{{ course.instructor.instructor_title }}</div>
                     </div>
                 </div>
@@ -202,9 +202,9 @@
                       <a href="{% url 'course_page' course.id %}" class="course-card__card-anchor">
                          <div class="course-card__card">
                          {% if not course.image %}
-                            <img class="course-card__card-img" src="/media/courses_images/default_img.jpg" alt="Course's image">
+                            <img class="course-card__card-img" src="/media/courses_images/default_img.jpg" alt="Course's image" loading="lazy">
                          {% else %}
-                            <img class="course-card__card-img" src="{{ course.image.url }}" alt="Course's image">
+                            <img class="course-card__card-img" src="{{ course.image.url }}" alt="Course's image" loading="lazy">
                          {% endif %}
                             <div class="course-card__card-title">{{ course.title }}</div>
                             <div class="course-card__card-description">

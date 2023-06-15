@@ -111,12 +111,21 @@
     justify-content: start;
     gap: 0.3em;
     margin-block-start: 0.5em;
+    transition: transform 0.1s linear;
+}
+
+.course__intruct-card:hover {
+    transform: scale(1.05); 
 }
 
 .course__instr-info {
     display: flex;
     flex-direction: column;
     align-items: start;
+}
+
+.course__instr-name {
+    text-align: start;
 }
 
 .course__instr-title {

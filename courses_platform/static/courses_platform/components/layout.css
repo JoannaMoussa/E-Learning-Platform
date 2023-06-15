@@ -16,6 +16,14 @@
     height: 1em;
 }
 
+.header__theme-toggle{
+    transition: transform 0.1s linear;
+}
+
+.header__theme-toggle:hover {
+    transform: scale(1.25);
+}
+
 .header__platform-name {
     font-weight: bold;
 }
@@ -112,13 +120,19 @@
 
     .header__link {
         text-decoration: none;
+        border-bottom: solid 2px transparent;
+        transition: border-bottom 0.1s linear;
+    }
+
+    .header__link:hover {
+        border-bottom: solid 2px var(--clr-dark);
     }
 
     .header__btn-theme-toggle {
         display: flex;
     }
 
-    .header__profile {
+    .header__icon-text-cont {
         display: flex;
         align-items: center;
         gap: 0.3em;
