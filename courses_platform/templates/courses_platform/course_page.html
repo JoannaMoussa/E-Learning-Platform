@@ -174,6 +174,7 @@
             <table id="myTable" class="display">
                 <thead>
                     <tr>
+                        <th>Username</th>
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Status</th>
@@ -182,6 +183,7 @@
                 <tbody>
                     {% for student in enrolled_students %}
                     <tr>
+                        <td>{{ student.id }},{{ student.username }}</td>
                         <td>{{ student.first_name }}</td>
                         <td>{{ student.last_name }}</td>
                         {% if student in course.passers.all %}

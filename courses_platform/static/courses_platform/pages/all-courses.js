@@ -68,10 +68,10 @@ function filterCoursesByQuery (search_query) {
     search_query = search_query.toLowerCase();
     titlesContainers.forEach(container => {
         if (!container.innerHTML.toLowerCase().includes(search_query)) {
-            container.parentElement.style.display = "none";
+            container.parentElement.parentElement.style.display = "none";
         }
         else {
-            container.parentElement.style.display = "flex";
+            container.parentElement.parentElement.style.display = "flex";
         }
     })
 }
