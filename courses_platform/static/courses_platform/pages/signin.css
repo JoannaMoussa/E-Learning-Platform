@@ -41,6 +41,18 @@
     font-size: var(--size-xl);
 }
 
+.signin-form__forgot-pass {
+    font-size: var(--size-base);
+    margin-block-start: 0.4em;
+    align-self: end;
+    text-decoration: none;
+    color: var(--clr-p-anchor);
+}
+
+.signin-form__forgot-pass:hover {
+    text-decoration: underline;
+}
+
 /* xs */
 /* @media (min-width: 475px) {} */
 
@@ -52,8 +64,13 @@
     .signin-form__label{
         font-size: var(--size-2xl);
     }
+
     .signin-form__input{
         font-size: var(--size-2xl);
+    }
+
+    .signin-form__forgot-pass {
+        font-size: var(--size-xl);
     }
 }
 
@@ -76,4 +93,24 @@
 /* @media (min-width: 1280px) {} */
 
 /* 2xl */
-/* @media (min-width: 1536px) {} */
+@media (min-width: 1536px) {
+    .signin-form__title {
+        font-size: var(--size-5xl);
+    }
+
+    .signin-form__label{
+        font-size: var(--size-3xl);
+    }
+    
+    .signin-form__input{
+        font-size: var(--size-3xl);
+    }
+
+    .signin-form__btn {
+        font-size: var(--size-3xl);
+    }
+
+    .signin-form__forgot-pass {
+        font-size: var(--size-2xl);
+    }
+} 
