@@ -16,6 +16,11 @@ import time
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_GET
 from django.db.models.functions import Length
+import io
+from django.http import FileResponse
+from reportlab.pdfgen import canvas
+from reportlab.lib.units import inch
+
 
 RANDOM_STR = secrets.token_hex(8)
 
@@ -605,3 +610,83 @@ def edit_profile(request):
 
             messages.success(request, "You edited your profile successfully")
             return HttpResponseRedirect(reverse("user_profile", kwargs={"user_id": request.user.id}))
+
+
+@login_required(login_url='/signin')
+def get_certificate(request, course_id, user_id):
+    try:
+        course = Course.objects.get(id=course_id)
+    except Course.DoesNotExist:
+        messages.error(request, "Invalid course id")
+        return HttpResponseRedirect(reverse("index"))
+
+    if not course.certificate:
+        messages.error(request, "An error occured")
+        return HttpResponseRedirect(reverse("course_page", kwargs={"course_id": course_id}))
+
+    try:
+        current_user = User.objects.get(id=user_id)
+    except User.DoesNotExist:
+        messages.error(request, "Invalid user id")
+        return HttpResponseRedirect(reverse("index"))
+
+    # Create a file-like buffer to receive PDF data.
+    buffer = io.BytesIO()
+
+    # Create the PDF object, using the buffer as its "file."
+    WIDTH, HEIGHT = 11 * inch, 8.5 * inch
+    certificate = canvas.Canvas(buffer, pagesize=(WIDTH, HEIGHT))
+
+    # Draw things on the PDF. Here's where the PDF generation happens.
+    COLOR_LIGHT = (88/255, 91/255, 238/255)
+    COLOR_DARK = (49/255, 46/255, 129/255)
+    FONT = "Times-Roman"
+    signature_height = 100
+    signature_ratio = 1.2
+    signature_width = signature_height * signature_ratio
+    stamp_width_height = 150
+
+    certificate.setTitle(
+        f"{course.title.replace(' ', '_')}_certificate_{current_user.username}")
+
+    def write_centered_text(font_size, rgb, y_coord, text):
+        certificate.setFont(FONT, font_size)
+        certificate.setFillColorRGB(*rgb)
+        certificate.drawCentredString(WIDTH//2, y_coord, text)
+
+    certificate.setStrokeColorRGB(*COLOR_DARK)
+    certificate.setLineWidth(4)
+    certificate.rect(10, 10, WIDTH-20, HEIGHT-20, stroke=1)
+
+    certificate.drawImage("media/certificate_images/certificate_stamp.png",
+                          0, HEIGHT-stamp_width_height-15, width=stamp_width_height, height=stamp_width_height, mask="auto")
+    write_centered_text(20, COLOR_LIGHT, HEIGHT*0.9, "CourseMedia")
+    write_centered_text(30, COLOR_DARK, HEIGHT*0.8,
+                        "Certificate of Completion")
+    write_centered_text(20, COLOR_LIGHT, HEIGHT*0.7, "This is to certify that")
+    write_centered_text(40, COLOR_DARK, HEIGHT*0.6,
+                        f"{current_user.first_name} {current_user.last_name}")
+    write_centered_text(20, COLOR_LIGHT, HEIGHT*0.53,
+                        f"has successfully completed a {course.duration} weeks course on")
+    write_centered_text(30, COLOR_DARK, HEIGHT*0.43,
+                        f"{course.title}")
+    write_centered_text(20, COLOR_LIGHT, HEIGHT*0.33,
+                        f"Delivered by {course.instructor.first_name} {course.instructor.last_name} on CourseMedia platform")
+    certificate.drawImage("media/certificate_images/signature.png",
+                          WIDTH * 0.45, HEIGHT*0.11, width=signature_width, height=signature_height, mask="auto")
+    write_centered_text(20, COLOR_DARK, HEIGHT*0.09, "Joanna Moussa")
+    write_centered_text(20, COLOR_DARK, HEIGHT*0.05, "Founder of CourseMedia")
+
+    # Close the PDF object cleanly, and we're done.
+    # showPage() causes the canvas to stop drawing on the current page
+    # and any further operations will draw on a subsequent page
+    # (if there are any further operations -- if not no new page is created)
+    certificate.showPage()
+    certificate.save()  # it generates the PDF file and closes the canvas
+
+    # FileResponse sets the Content-Disposition header so that browsers
+    # present the option to save the file.
+    buffer.seek(0)
+    return FileResponse(buffer,
+                        as_attachment=True,
+                        filename=f"{course.title.replace(' ', '_')}_certificate_{current_user.username}.pdf")

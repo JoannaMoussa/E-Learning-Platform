@@ -99,9 +99,15 @@
     margin-block-start: 1.5em;
 }
 
-.course__card-anchor {
-    max-width: calc(0.7*475px); /* This corresponds to the max width of a card on the mobile */
+.course__prereq-instr-card-anchor {
+    display: inline-block;
+    width: fit-content;
+    height: fit-content;
     margin-block-start: 1.5em;
+}
+
+.course__card-div {
+    max-width: calc(0.7*475px); /* This corresponds to the max width of a card on the mobile */
 }
 
 .course__intruct-card {
@@ -110,7 +116,6 @@
     flex-direction: row;
     justify-content: start;
     gap: 0.3em;
-    margin-block-start: 0.5em;
     transition: transform 0.1s linear;
 }
 

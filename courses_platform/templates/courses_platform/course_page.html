@@ -51,9 +51,12 @@
                 {% else %}
                     {% if user in course.enrolled_students.all  %}
                         {% if user in course.passers.all %}
-                        <p class="course__p">You completed this course! &#127881;</p>
+                            <p class="course__p">You completed this course! &#127881;</p>
+                            {% if course.certificate %}
+                                <a class="custom-button course__btn" href="{% url 'get_certificate' course.id user.id %}">Get Certificate</a>
+                            {% endif %}
                         {% else %}
-                        <a class="custom-button course__btn" href="{% url 'quiz' course.id %}">Take the quiz</a>
+                            <a class="custom-button course__btn" href="{% url 'quiz' course.id %}">Take the quiz</a>
                         {% endif %}
                         <a class="custom-button course__btn course__content-btn" href="#">
                             <svg class="course__icon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
@@ -64,7 +67,7 @@
                             <span>Go to Course Content</span>
                         </a>
                     {% else %}
-                    <a class="custom-button course__btn" href="{% url 'course_enroll' course.id %}">Enroll Now</a>
+                        <a class="custom-button course__btn" href="{% url 'course_enroll' course.id %}">Enroll Now</a>
                     {% endif %}
                 {% endif %}
             {% endif %}
@@ -125,8 +128,8 @@
         <section>
             <h2 class="course__h2">This Course's Prerequisite</h2>
             {% if course.prerequisite %}
-            <a href="{% url 'course_page' course.prerequisite.id %}" class="course-card__card-anchor">
-                <div class="course-card__card course__card-anchor">
+            <a href="{% url 'course_page' course.prerequisite.id %}" class="course-card__card-anchor course__prereq-instr-card-anchor">
+                <div class="course-card__card course__card-div">
                 {% if not course.prerequisite.image %}
                     <img class="course-card__card-img" src="/media/courses_images/default_img.jpg" alt="Course's image">
                 {% else %}
@@ -152,7 +155,7 @@
         </section>
         <section>
             <h2 class="course__h2">Instructor</h2>
-            <a href="{% url 'user_profile' course.instructor.id %}" class="course-card__card-anchor">
+            <a href="{% url 'user_profile' course.instructor.id %}" class="course-card__card-anchor course__prereq-instr-card-anchor">
                 <div class="course-card__card course__intruct-card">
                     <svg class="course__icon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
                         <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
