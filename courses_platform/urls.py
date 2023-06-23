@@ -26,7 +26,7 @@ urlpatterns = [
          views.enrolled_courses, name="enrolled_courses"),
     path("editProfile",
          views.edit_profile, name="edit_profile"),
-    path("courses/<int:course_id>/certificate/<int:user_id>",
+    path("courses/<int:course_id>/certificate",
          views.get_certificate, name="get_certificate"),
 
     # Paths for password reset

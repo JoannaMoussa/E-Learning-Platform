@@ -1,6 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxValueValidator, MinValueValidator, MinLengthValidator, MaxLengthValidator
+from PIL import Image
+from io import BytesIO
+from django.core.files import File
+import time
 
 
 class User(AbstractUser):
@@ -88,6 +92,23 @@ class Course(models.Model):
     passers = models.ManyToManyField(
         "User", blank=True, related_name="courses_passed")
     creation_date = models.DateField(auto_now_add=True)
+
+    # before saving the instance we’re reducing the image
+    def save(self, *args, **kwargs):
+        # Make sure to compress the image only if the course in being created, not on course update.
+        # Otherwise, every time we update the course, the image will be compressed!
+        if self.image and self.id is None:
+            self.image = self.reduce_image_size(self.image)
+        # The super() function is used to give access to methods and properties of a parent or sibling class.
+        super().save(*args, **kwargs)
+
+    def reduce_image_size(self, image):
+        img = Image.open(image).convert('RGB')
+        compressed_io = BytesIO()
+        img.save(compressed_io, "jpeg", quality=75)
+        new_image = File(
+            compressed_io, name=f"{self.title[:10]}_{int(time.time())}.jpg")
+        return new_image
 
     def serialize(self):
         return {

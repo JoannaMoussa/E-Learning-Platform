@@ -12,8 +12,12 @@
 
 {% block followingBody %}
     <section>
-        <h2 class="profile__h2 i-profile__h2">{{ current_user.courses_taught.count }} Courses Taught</h2>
-        {% if current_user == user %}
+      {% if current_user.courses_taught.count == 1 %}
+         <h2 class="profile__h2 i-profile__h2">1 Course Taught by {{ current_user.username }}</h2>
+      {% else %}
+         <h2 class="profile__h2 i-profile__h2">{{ current_user.courses_taught.count }} Courses Taught by {{ current_user.username }}</h2>
+      {% endif %}
+      {% if current_user == user %}
         <div class="i-profile__btn-cont">
             <a class="custom-button i-profile__add-btn" href="{% url 'create_course' %}">
                 <svg class="i-profile__icon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">

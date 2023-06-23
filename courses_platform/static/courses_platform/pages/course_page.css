@@ -43,6 +43,12 @@
     margin-block-start: 0.5em;
 }
 
+.course__certificate-btn {
+    display: flex !important;
+    align-items: center;
+    gap: 0.35em;
+}
+
 .course__content-btn {
     background-color: rgb(175, 175, 53) !important;
     display: flex !important;
@@ -138,7 +144,7 @@
 }
 
 .course__h2-enrolled-students {
-    margin-block-end: 1.5em;
+    margin-block-end: 0.8em;
 }
 
 .course__similar-courses-h2 {

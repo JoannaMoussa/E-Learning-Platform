@@ -310,7 +310,6 @@ def create_course(request):
                 options = [element.strip().replace(RANDOM_STR, ",")
                            for element in options]
                 processed_all_options.append(options)
-                print(processed_all_options)
 
             for options in processed_all_options:
                 if len(options) <= 1:
@@ -319,7 +318,7 @@ def create_course(request):
                 for element in options:
                     if element == "":
                         return response_with_error(
-                            "Make sure none of the options are empty.")
+                            "There is an empty option (An option list should not end with a coma)")
 
             # extract all correct options and check if they are valid
             if len(all_correct_options) != len(all_questions):
@@ -613,7 +612,7 @@ def edit_profile(request):
 
 
 @login_required(login_url='/signin')
-def get_certificate(request, course_id, user_id):
+def get_certificate(request, course_id):
     try:
         course = Course.objects.get(id=course_id)
     except Course.DoesNotExist:
@@ -621,14 +620,14 @@ def get_certificate(request, course_id, user_id):
         return HttpResponseRedirect(reverse("index"))
 
     if not course.certificate:
-        messages.error(request, "An error occured")
+        messages.error(request, "This course does not provide a certificate")
         return HttpResponseRedirect(reverse("course_page", kwargs={"course_id": course_id}))
 
-    try:
-        current_user = User.objects.get(id=user_id)
-    except User.DoesNotExist:
-        messages.error(request, "Invalid user id")
-        return HttpResponseRedirect(reverse("index"))
+    current_user = request.user
+
+    if current_user not in course.passers.all():
+        messages.error(request, "You did not pass this course")
+        return HttpResponseRedirect(reverse("course_page", kwargs={"course_id": course_id}))
 
     # Create a file-like buffer to receive PDF data.
     buffer = io.BytesIO()
