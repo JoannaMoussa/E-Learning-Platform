@@ -145,7 +145,7 @@ QUIZES_ROOT = BASE_DIR / "quizes"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# running and SMTP server on the console
+# running an SMTP server on the console
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # running and SMTP server that saves emails in a file
