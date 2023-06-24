@@ -458,7 +458,7 @@ def all_courses_api(request):
 
     # Sort courses
     sort_criteria = request.GET.get("sort")
-    if sort_criteria not in ["title", "-title", "creation_date", "popularity"]:
+    if sort_criteria not in ["title", "-title", "-creation_date", "popularity"]:
         return JsonResponse({"error": "An error occured"}, status=400)
 
     if sort_criteria == "popularity":
