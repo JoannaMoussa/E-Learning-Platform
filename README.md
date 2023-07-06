@@ -9,7 +9,7 @@
 1. [Introduction](#1-introduction)
 1. [Distinctiveness and Complexity](#2-distinctiveness-and-complexity)
 1. [What’s contained in each file](#3-whats-contained-in-each-file)
-1. [How to run the application](#4-how-to-run-the-application)
+1. [How to run this application](#4-how-to-run-this-application)
 1. [About this web application](#5-about-this-web-application)
 
 ## 1. Introduction
