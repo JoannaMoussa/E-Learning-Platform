@@ -50,6 +50,7 @@
     margin-block-end: 0.4em;
     font-weight: 600;
     line-height: 1.15em;
+    word-break: break-word;
     display: -webkit-box;
     -webkit-line-clamp: 2; /*maximum of 2 lines*/
     line-clamp: 2;

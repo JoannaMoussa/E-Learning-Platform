@@ -52,7 +52,9 @@
                 {% endfor %}
                 </div>
             </div>
-            <a class="s-profile__a" href="{% url 'completed_courses' current_user.id %}">See all completed courses</a>
+            {% if passed_courses|length > 2 %}
+                <a class="s-profile__a" href="{% url 'completed_courses' current_user.id %}">See all completed courses</a>
+            {% endif %}
         {% endif %}
     </section>
 
@@ -102,7 +104,9 @@
                 {% endfor %}
                 </div>
             </div>
-            <a class="s-profile__a" href="{% url 'enrolled_courses' current_user.id %}">See all currently enrolled courses</a>
+            {% if enrolled_not_passed_courses|length > 2 %}
+                <a class="s-profile__a" href="{% url 'enrolled_courses' current_user.id %}">See all currently enrolled courses</a>
             {% endif %}
+        {% endif %}
     </section>
 {% endblock %}

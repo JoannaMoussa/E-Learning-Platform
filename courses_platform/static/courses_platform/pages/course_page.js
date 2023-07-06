@@ -11,7 +11,7 @@ $(document).ready( function () {
 
                         return '<a href="' + link + '">' + username + '</a>';
                     }
-                    return username; // This will be used when sorting and filtering
+                    return data.split(",")[1]; // This will be used when sorting and filtering
                 }
             },
             {

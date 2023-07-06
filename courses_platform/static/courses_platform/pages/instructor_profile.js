@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     let allCards = document.querySelectorAll(".course-card__card-anchor");
-    let slicedArrayCards = [...allCards].slice(3);
+    let slicedArrayCards = [...allCards].slice(2); //select from the second element to the end
     const showLessCoursesBtn = document.getElementById("show-less-courses");
     const showMoreCoursesBtn = document.getElementById("show-all-courses");
 

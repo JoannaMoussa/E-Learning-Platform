@@ -20,7 +20,7 @@ import io
 from django.http import FileResponse
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch
-
+import os
 
 RANDOM_STR = secrets.token_hex(8)
 
@@ -282,7 +282,6 @@ def create_course(request):
 
             new_course.certificate = filled_form.cleaned_data["certificate"]
             new_course.passing_grade = filled_form.cleaned_data["passing_grade"]
-            new_course.save()
 
             # quiz section
             # extract all questions and check if they are valid
@@ -349,6 +348,7 @@ def create_course(request):
             # write data
             json.dump(quiz_data, open(filepath, "w"))
 
+            new_course.save()
             messages.success(request, "Your course was created successfully!")
             return HttpResponseRedirect(reverse("user_profile", kwargs={"user_id": current_user.id}))
 
@@ -387,7 +387,12 @@ def quiz(request, course_id):
     # Open the course's quiz file
     quiz_filename = f"{course.instructor.username}_{course.id}.json"
     quiz_filepath = settings.QUIZES_ROOT / quiz_filename
-    quiz_file = open(quiz_filepath)
+    if os.path.exists(quiz_filepath):
+        quiz_file = open(quiz_filepath)
+    else:
+        messages.error(
+            request, "Error loading quiz")
+        return HttpResponseRedirect(reverse("course_page", kwargs={"course_id": course_id}))
     # save json string as python dictionary
     quiz_data = json.load(quiz_file)
 
@@ -458,7 +463,7 @@ def all_courses_api(request):
 
     # Sort courses
     sort_criteria = request.GET.get("sort")
-    if sort_criteria not in ["title", "-title", "-creation_date", "popularity"]:
+    if sort_criteria not in ["title", "-title", "creation_date", "popularity"]:
         return JsonResponse({"error": "An error occured"}, status=400)
 
     if sort_criteria == "popularity":

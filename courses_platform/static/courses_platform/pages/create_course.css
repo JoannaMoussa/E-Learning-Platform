@@ -59,6 +59,10 @@
     font-size: var(--size-xl);
 }
 
+.createcourse-form__input-select {
+    max-width: 100%;
+}
+
 .createcourse-form__checkbox-grp {
     display: flex;
     align-items: start;
