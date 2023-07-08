@@ -662,7 +662,7 @@ def get_certificate(request, course_id):
     certificate.setLineWidth(4)
     certificate.rect(10, 10, WIDTH-20, HEIGHT-20, stroke=1)
 
-    certificate.drawImage("media/certificate_images/certificate_stamp.png",
+    certificate.drawImage(settings.MEDIA_ROOT / "certificate_images" / "certificate_stamp.png",
                           0, HEIGHT-stamp_width_height-15, width=stamp_width_height, height=stamp_width_height, mask="auto")
     write_centered_text(20, COLOR_LIGHT, HEIGHT*0.9, "CourseMedia")
     write_centered_text(30, COLOR_DARK, HEIGHT*0.8,
@@ -676,7 +676,7 @@ def get_certificate(request, course_id):
                         f"{course.title}")
     write_centered_text(20, COLOR_LIGHT, HEIGHT*0.33,
                         f"Delivered by {course.instructor.first_name} {course.instructor.last_name} on CourseMedia platform")
-    certificate.drawImage("media/certificate_images/signature.png",
+    certificate.drawImage(settings.MEDIA_ROOT / "certificate_images" / "signature.png",
                           WIDTH * 0.45, HEIGHT*0.11, width=signature_width, height=signature_height, mask="auto")
     write_centered_text(20, COLOR_DARK, HEIGHT*0.09, "Joanna Moussa")
     write_centered_text(20, COLOR_DARK, HEIGHT*0.05, "Founder of CourseMedia")

@@ -67,7 +67,7 @@ E-Learning-Platform is the root directory. Here is the listing of the files/dire
   - **urls.py:** Specify the paths required for the web app, along with their corresponding views function and name.
   - **views.py:** Defines Django forms and every views function is defined in this file.
   - **models.py:** Defines 2 models: User model and Course model. The fields in every model and the relationship between them is shown in the figure below.
-    ![Image that shows the models, their fields and the relationship between the fields](media/database_image/database.png "Image showing the models, their fields and the relationship between the fields")
+    ![Image that shows the models, their fields and the relationship between the fields](images/database.png "Image showing the models, their fields and the relationship between the fields")
   - **admin.py:** Specify for every model, what fields to show in the admin interface.
   - **tests.py:** Define tests for the models and the relationship between them.
 

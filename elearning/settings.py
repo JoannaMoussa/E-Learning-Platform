@@ -129,7 +129,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'static'
+
+STATIC_URL = '/static/'
 
 # MEDIA_ROOT is the full path to a directory where I’d like Django to store uploaded files.
 MEDIA_ROOT = BASE_DIR / 'media'
