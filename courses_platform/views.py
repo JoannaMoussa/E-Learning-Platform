@@ -120,6 +120,11 @@ class CreateCourseForm(forms.Form):
 
 def signup(request):
     if request.method == "POST":
+        ### This is a temporary behavior to limit courses created when the website is public
+        messages.warning(request, "Functionality temporarily disabled.")
+        return HttpResponseRedirect(reverse("index"))
+        ###
+    
         filled_form = SignUpForm(request.POST)
 
         if filled_form.is_valid():
