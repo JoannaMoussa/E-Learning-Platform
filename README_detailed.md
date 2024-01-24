@@ -78,13 +78,6 @@ E-Learning-Platform is the root directory. Here is the listing of the files/dire
 - Run the following command: `pip install -r requirements.txt`
 - And finally, run the following command: `python manage.py runserver` and open the provided url in your browser
 
-  I will provide 2 account credentials to sign in:
-
-  - **An instructor account:** username: Christopher and Password: christopher
-  - **A student account:** username: Jad and Password: jad
-
-    Please note that the first letter of both usernames starts with an uppercase letter, however the first letter of both passwords starts with a lowercase letter.
-
 ## 5. About this web application
 
 I will start by talking about some components in the web app that are common in all web pages.
