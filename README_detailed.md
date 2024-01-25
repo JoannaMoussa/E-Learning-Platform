@@ -76,6 +76,7 @@ E-Learning-Platform is the root directory. Here is the listing of the files/dire
 - Clone this repository
 - `cd` into the root directory (E-Learning-Platform)
 - Run the following command: `pip install -r requirements.txt`
+- When deploying the web app, make sure to run: `python manage.py collectstatic`
 - And finally, run the following command: `python manage.py runserver` and open the provided url in your browser
 
 ## 5. About this web application

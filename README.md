@@ -123,4 +123,5 @@ In the following section, I will list all the web pages of this web app, and I w
 - Clone this repository
 - `cd` into the root directory (E-Learning-Platform)
 - Run the following command: `pip install -r requirements.txt`
+- When deploying the web app, make sure to run: `python manage.py collectstatic`
 - And finally, run the following command: `python manage.py runserver` and open the provided url in your browser
