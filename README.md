@@ -19,7 +19,7 @@
 
 ## 1. Introduction
 
-This web application consists of an online courses platform, where instructors can create courses with their corresponding quizzes, and students can enroll in those courses and take their quizzes: they pass or fail depending on the grade they have got. For specific courses, a certificate is granted upon completion and can be downloaded by the students. Every user has their own profile in which (depending on the user's role) several actions can be performed.
+This web application consists of an online courses platform, where instructors can create courses with their corresponding quizzes, and students can enroll in those courses and take their quizzes: they pass or fail depending on the grade they get. Instructors can opt to deliver certificates upon completion of their courses. Certificates are automatically generated and can be downloaded by students who pass a given course. Every user has a profile in which (depending on the user's role) several actions can be performed.
 
 ## 2. Database design
 
