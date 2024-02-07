@@ -120,11 +120,6 @@ class CreateCourseForm(forms.Form):
 
 def signup(request):
     if request.method == "POST":
-        ### This is a temporary behavior to limit courses created when the website is public
-        messages.warning(request, "Functionality temporarily disabled.")
-        return HttpResponseRedirect(reverse("index"))
-        ###
-    
         filled_form = SignUpForm(request.POST)
 
         if filled_form.is_valid():
@@ -151,6 +146,11 @@ def signup(request):
                 about = request.POST["about_me"]
                 instructor_title = None
                 if role == User.INSTRUCTOR:
+                    ### This is a temporary behavior to limit courses created when the website is public
+                    messages.warning(request, "Creating instructors disabled in production.")
+                    return render(request, "courses_platform/signup.html", {
+                        "SignUpForm": filled_form
+                    })
                     if not request.POST["title"]:
                         messages.error(
                             request, "You should specify your title as an instructor")
